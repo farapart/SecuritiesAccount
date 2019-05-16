@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5975f5ed-15c2-41a9-b6c8-e9d0399ae9a1" name="Default Changelist" comment="" />
+    <list default="true" id="5975f5ed-15c2-41a9-b6c8-e9d0399ae9a1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model.zip" beforeDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,17 +26,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/PersonalAccount.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1596">
-              <caret line="136" column="1" lean-forward="true" selection-start-line="121" selection-start-column="3" selection-end-line="136" selection-end-column="1" />
+            <state relative-caret-position="655">
+              <caret line="136" column="1" selection-start-line="121" selection-start-column="3" selection-end-line="136" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/CorporateAccount.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="452">
-              <caret line="123" column="34" lean-forward="true" selection-start-line="123" selection-start-column="19" selection-end-line="123" selection-end-column="34" />
+            <state relative-caret-position="1463">
+              <caret line="123" column="34" selection-start-line="123" selection-start-column="19" selection-end-line="123" selection-end-column="34" />
               <folding>
                 <element signature="method#setLegal_representative_id#0;class#CorporateAccount#0" />
                 <element signature="method#setLegal_representative_name#0;class#CorporateAccount#0" />
@@ -44,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Model/SecuritiesAccountDBManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="164" column="54" lean-forward="true" selection-start-line="164" selection-start-column="40" selection-end-line="164" selection-end-column="54" />
+            <state relative-caret-position="2928">
+              <caret line="200" column="83" selection-start-line="200" selection-start-column="83" selection-end-line="200" selection-end-column="83" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -76,6 +79,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -91,6 +97,12 @@
       </list>
     </option>
   </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-9" />
     <option name="width" value="978" />
@@ -101,44 +113,23 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="Test" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Test" type="462c0819:PsiDirectoryNode" />
+              <item name="SecuritiesAccount" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SecuritiesAccount" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Test" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Test" type="462c0819:PsiDirectoryNode" />
+              <item name="SecuritiesAccount" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SecuritiesAccount" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Test" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Test" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Test" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Test" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Test" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Test" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="View" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Test" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Test" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="View" type="462c0819:PsiDirectoryNode" />
-              <item name="fxml" type="462c0819:PsiDirectoryNode" />
+              <item name="SecuritiesAccount" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
@@ -149,7 +140,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557977919843" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557990077211" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -187,17 +178,17 @@
       <workItem from="1557401826833" duration="1417000" />
       <workItem from="1557971991069" duration="5637000" />
       <workItem from="1557988491446" duration="575000" />
+      <workItem from="1557989701646" duration="825000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7629000" />
+    <option name="totallyTimeSpent" value="8454000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17962466" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1816354" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -214,14 +205,14 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2386059" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Theme Preview" order="4" />
-      <window_info anchor="right" id="Maven" order="5" />
+      <window_info anchor="right" id="Maven" order="5" weight="0.3297587" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Database" order="8" />
@@ -316,13 +307,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/img/test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/State.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
@@ -330,20 +314,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/SecuritiesAccountDBManager.java">
+    <entry file="file://$PROJECT_DIR$/src/View/img/test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="164" column="54" lean-forward="true" selection-start-line="164" selection-start-column="40" selection-end-line="164" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/PersonalAccount.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1596">
-          <caret line="136" column="1" lean-forward="true" selection-start-line="121" selection-start-column="3" selection-end-line="136" selection-end-column="1" />
+        <state relative-caret-position="38">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -354,15 +328,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/PersonalAccount.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="655">
+          <caret line="136" column="1" selection-start-line="121" selection-start-column="3" selection-end-line="136" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/CorporateAccount.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="123" column="34" lean-forward="true" selection-start-line="123" selection-start-column="19" selection-end-line="123" selection-end-column="34" />
+        <state relative-caret-position="1463">
+          <caret line="123" column="34" selection-start-line="123" selection-start-column="19" selection-end-line="123" selection-end-column="34" />
           <folding>
             <element signature="method#setLegal_representative_id#0;class#CorporateAccount#0" />
             <element signature="method#setLegal_representative_name#0;class#CorporateAccount#0" />
             <element signature="method#setLegal_representative_phone_no#0;class#CorporateAccount#0" />
             <element signature="method#setLegal_representative_add#0;class#CorporateAccount#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/SecuritiesAccountDBManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2928">
+          <caret line="200" column="83" selection-start-line="200" selection-start-column="83" selection-end-line="200" selection-end-column="83" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
