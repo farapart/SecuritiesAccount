@@ -1,2 +1,5 @@
 # SecuritiesAccount
 ## 证券账户模块，采用MVC框架
+自然人法人账户相关信息在Model文件夹中，和数据库交互的功能也在Model中实现
+UI相关的文件请放在View文件夹中
+生成的Controller相关文件请放在Controller文件中
