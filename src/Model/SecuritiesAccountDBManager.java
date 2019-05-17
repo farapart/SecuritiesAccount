@@ -1,124 +1,77 @@
-package Model;
-
-import Model.CorporateAccount;
-import Model.PersonalAccount;
-
 import java.sql.*;
 import java.util.ArrayList;
 
-public class SecuritiesAccountDBManager {
-    // 创建个人账户
-    public static int newAccount(PersonalAccount account) {
-        Connection conn = getConn("root", "");
-        int i = 0;  // 数据库受影响的行数
-        final String SQL = "insert into personal_account(securities_id, register_date, name, gender, id_no, " +
-                "family_add, career, education, organization, phone_no, agent_id_no) values(?, ?, ?, ?, ?, ?, ?, ?, " +
+public class DBManager {
+    private static String driverName = "com.mysql.cj.jdbc.Driver";
+    private static String dbURL = "jdbc:mysql://localhost:3306/project?serverTimezone=UTC";
+    private static String userName = "root";
+    private static String userPwd = "";
+
+    /**
+     * 注册个人账户
+     * @param account
+     * @return 操作是否成功
+     */
+    public static boolean newAccount(PersonalAccount account) {
+        String sql = "INSERT INTO personal_account(securities_id, register_date, name, gender, id_no, " +
+                "family_add, career, education, organization, phone_no, agent_id_no) VALUES(?, ?, ?, ?, ?, ?, ?, ?, " +
                 "?, ?, ?)";
-
-        try {
-            // 修改SQL语句
-            PreparedStatement pStmt = conn.prepareStatement(SQL);
-            pStmt.setString(1, account.getSecurities_id());
-            pStmt.setDate(2, account.getRegister_date());
-            pStmt.setString(3, account.getName());
-            pStmt.setBoolean(4, account.getGender());
-            pStmt.setString(5, account.getId_no());
-            pStmt.setString(6, account.getFamily_add());
-            pStmt.setString(7, account.getCareer());
-            pStmt.setString(8, account.getEducation());
-            pStmt.setString(9, account.getOrganization());
-            pStmt.setString(10, account.getPhone_no());
-            pStmt.setString(11, account.getAgent_id_no());
-
-            // 插入新的账户
-            i = pStmt.executeUpdate();
-            pStmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return i;
+        Object []args = {account.getSecurities_id(), account.getRegister_date(), account.getName(),
+        account.getGender(), account.getId_no(), account.getFamily_add(), account.getCareer(), account.getEducation(),
+        account.getOrganization(), account.getPhone_no(), account.getAgent_id_no()};
+        return executeUpdate(sql, args);
     }
 
-    // 创建法人账户
-    public static int newAccount(CorporateAccount account) {
-        Connection conn = getConn("root", "");
-        int i = 0;  // 数据库受影响的行数
-        final String SQL = "insert into corporate_account(securities_id, register_no, business_license_no, " +
+    /**
+     * 注册法人账户
+     * @param account
+     * @return 操作是否成功
+     */
+    public static boolean newAccount(CorporateAccount account) {
+        String sql = "INSERT INTO corporate_account(securities_id, register_no, business_license_no, " +
                 "legal_representative_id, legal_representative_name, legal_representative_phone_no, " +
                 "legal_representative_add, authorizer_name, authorizer_id, authorizer_phone_no, authorizer_add) " +
-                "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try {
-            // 修改SQL语句
-            PreparedStatement pStmt = conn.prepareStatement(SQL);
-            pStmt.setString(1, account.getSecurities_id());
-            pStmt.setString(2, account.getRegister_no());
-            pStmt.setString(3, account.getBusiness_license_no());
-            pStmt.setString(4, account.getLegal_representative_id());
-            pStmt.setString(5, account.getLegal_representative_name());
-            pStmt.setString(6, account.getLegal_representative_phone_no());
-            pStmt.setString(7, account.getLegal_representative_add());
-            pStmt.setString(8, account.getAuthorizer_name());
-            pStmt.setString(9, account.getAuthorizer_id());
-            pStmt.setString(10, account.getAuthorizer_phone_no());
-            pStmt.setString(11, account.getAuthorizer_add());
-
-            // 插入新的账户
-            i = pStmt.executeUpdate();
-            pStmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return i;
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Object []args = {account.getSecurities_id(), account.getRegister_no(), account.getBusiness_license_no(),
+        account.getLegal_representative_id(), account.getLegal_representative_name(), account.getBusiness_license_no(),
+        account.getLegal_representative_add(), account.getAuthorizer_name(), account.getAuthorizer_id(),
+        account.getAuthorizer_phone_no(), account.getAuthorizer_add()};
+        return executeUpdate(sql, args);
     }
 
-    // 删除个人账户，id_no是个人身份证号
-    public static int deleteAccount(PersonalAccount account) {
-        Connection conn = getConn("root", "");
-        int i = 0;  // 数据库受影响的行数
-        final String SQL = "delete from personal_account where securities_id = '" + account.getId_no() + "'";
-        try {
-            PreparedStatement pStmt = conn.prepareStatement(SQL);
-            i = pStmt.executeUpdate();
-            pStmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return i;
+    /**
+     * 删除个人账户
+     * @param account
+     * @return 操作是否成功
+     */
+    public static boolean deleteAccount(PersonalAccount account) {
+        String sql = "DELETE FROM personal_account WHERE securities_id='" + account.getSecurities_id() + "'";
+        return executeUpdate(sql, null);
     }
 
-    // 删除法人账户，register_no是法人注册登记号
-    public static int deleteAccount(CorporateAccount account) {
-        Connection conn = getConn("root", "");
-        int i = 0;  // 数据库受影响的行数
-        final String SQL = "delete from corporate_account where register_no = '" + account.getRegister_no() + "'";
-        try {
-            PreparedStatement pStmt = conn.prepareStatement(SQL);
-            i = pStmt.executeUpdate();
-            pStmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return i;
+    /**
+     * 删除法人账户
+     * @param account
+     * @return 操作是否成功
+     */
+    public static boolean deleteAccount(CorporateAccount account) {
+        String sql = "DELETE FROM corporate_account WHERE securities_id='" + account.getSecurities_id() + "'";
+        return executeUpdate(sql, null);
     }
 
-    // 得到个人账户的信息和相关联的资金账户号
+    /**
+     * 获取个人账户信息
+     * @param id_no 身份证号
+     * @param account 返回的个人账户
+     * @param fundAccount 返回的资金账户
+     * @return 操作是否成功
+     */
     public static boolean getInformation(String id_no, PersonalAccount account, ArrayList<String> fundAccount) {
-        Connection conn = getConn("root", "");
-        boolean find = false;   // 标志是否找到对应的账户
-        final String SQL = "select * from ? where id_no = '" + id_no + "'";
+        String sql = "SELECT * FROM ? WHERE ?=?";
+        Object []args = {"personal_account", "id_no", id_no};
+        ResultSet rs = executeQuery(sql, args);
+        boolean result = false;
         try {
-            PreparedStatement pStmt = conn.prepareStatement(SQL);
-            pStmt.setString(1, "personal_account");
-            ResultSet rs = pStmt.executeQuery();
-
-            // 如果找到了对应的账户，返回账户信息account和关联的资金账户fundAccount
             if (rs.next()) {
                 account.setSecurities_id(rs.getString(1));
                 account.setRegister_date(rs.getDate(2));
@@ -131,36 +84,36 @@ public class SecuritiesAccountDBManager {
                 account.setOrganization(rs.getString(9));
                 account.setPhone_no(rs.getString(10));
                 account.setAgent_id_no(rs.getString(11));
-                find = true;
-
-                pStmt.setString(1, "securities_fund");
-                rs = pStmt.executeQuery();
-
+                args[0] = "securities_fund";
+                args[1] = "securities_id";
+                args[2] = account.getSecurities_id();
+                rs = executeQuery(sql, args);
                 while (rs.next()) {
                     fundAccount.add(rs.getString(2));
                 }
+                result = true;
             }
-
-            pStmt.close();
-            conn.close();
+            if (rs != null)
+                rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return find;
+        return result;
     }
 
-    // 得到法人账户的信息和相关联的资金账户号
-    public static boolean getCorporateInformation(String register_no, CorporateAccount account,
-                                              ArrayList<String> fundAccount) {
-        Connection conn = getConn("root", "");
-        boolean find = false;   // 标志是否找到对应的账户
-        final String SQL = "select * from corporate_account where register_no = '" + register_no + "'";
-        final String SQL1 = "select * from securities_fund where securities_id = ?";
+    /**
+     * 获取法人账户信息
+     * @param register_no 注册号码
+     * @param account 返回的法人账户
+     * @param fundAccount 返回的资金账户
+     * @return 操作是否成功
+     */
+    public static boolean getInformation(String register_no, CorporateAccount account, ArrayList<String> fundAccount) {
+        String sql = "SELECT * FROM ? WHERE ?=?";
+        Object []args = {"corporate_account", "register_no", register_no};
+        ResultSet rs = executeQuery(sql, args);
+        boolean find = false;
         try {
-            PreparedStatement pStmt = conn.prepareStatement(SQL);
-            ResultSet rs = pStmt.executeQuery();
-
-            // 如果找到了对应的账户，返回账户信息account和关联的资金账户fundAccount
             if (rs.next()) {
                 account.setSecurities_id(rs.getString(1));
                 account.setRegister_no(rs.getString(2));
@@ -173,43 +126,144 @@ public class SecuritiesAccountDBManager {
                 account.setAuthorizer_id(rs.getString(9));
                 account.setAuthorizer_phone_no(rs.getString(10));
                 account.setAuthorizer_add(rs.getString(11));
-                find = true;
-
-                pStmt = conn.prepareStatement(SQL1);
-                pStmt.setString(1, account.getSecurities_id());
-                rs = pStmt.executeQuery();
-
+                args[0] = "securities_fund";
+                args[1] = "securities_id";
+                args[2] = account.getSecurities_id();
+                rs = executeQuery(sql, args);
                 while (rs.next()) {
                     fundAccount.add(rs.getString(2));
                 }
+                find = true;
             }
-
-            pStmt.close();
-            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return find;
     }
 
-    public static void setInformation() {}
+    /**
+     * 修改个人账户
+     * @param account
+     * @return
+     */
+    public static boolean setInformation(PersonalAccount account) {
+        String sql = "UPDATE personal_account SET name=?, gender=?, id_no=?, family_add=?, career=?, education=?, " +
+                "organization=?, phone_no=?, agent_id_no=?";
+        Object []args = {account.getName(), account.getGender(), account.getId_no(), account.getFamily_add(),
+                account.getCareer(), account.getEducation(), account.getOrganization(), account.getPhone_no(),
+                account.getAgent_id_no()};
+        return executeUpdate(sql, args);
+    }
 
+    /**
+     * 修改法人账户
+     * @param account
+     * @return
+     */
+    public static boolean setInformation(CorporateAccount account) {
+        String sql = "UPDATE corporate_account SET register_no=?, business_license_no=?, legal_representative_id=?, " +
+                "legal_representative_name=?, legal_representative_phone_no=?, legal_representative_add=?, " +
+                "authorizer_name=?, authorizer_id=?, authorizer_phone_no=?, authorizer_add=?";
+        Object []args = {account.getRegister_no(), account.getBusiness_license_no(), account.getLegal_representative_id(),
+                account.getLegal_representative_name(), account.getLegal_representative_phone_no(),
+                account.getLegal_representative_add(), account.getAuthorizer_name(), account.getAuthorizer_id(),
+                account.getAuthorizer_phone_no(), account.getAuthorizer_add()};
+        return executeUpdate(sql, args);
+    }
 
-    // 连接数据库
-    private static Connection getConn(String user, String password) {
-        final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";  // mysql驱动
-        final String URL = "jdbc:mysql://localhost:3306/project?serverTimezone=UTC";    // 数据库URL
+    /**
+     * 获取数据库连接
+     * @return
+     */
+    private static Connection getConn() {
         Connection conn = null;
-
         try {
-            Class.forName(DRIVER_NAME); // 加载驱动
-            conn = DriverManager.getConnection(URL, user, password);
+            Class.forName(driverName);
+            conn = DriverManager.getConnection(dbURL, userName, userPwd);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return conn;
+    }
+
+    /**
+     * 执行查询操作
+     * @param SQL
+     * @param args
+     * @return 查询结果
+     */
+    public static ResultSet executeQuery(String SQL, Object []args) {
+        Connection conn = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConn();
+            pStmt = conn.prepareStatement(SQL);
+            if (args != null && args.length > 0) {
+                for (int i = 0; i < args.length; i++) {
+                    pStmt.setObject(i + 1, args[i]);
+                }
+            }
+            rs = pStmt.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pStmt != null)
+                    pStmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 执行增删改操作
+     * @param SQL
+     * @param args
+     * @return 操作是否成功
+     */
+    public static boolean executeUpdate(String SQL, Object []args) {
+        Connection conn = null;
+        PreparedStatement pStmt = null;
+        try {
+            conn = getConn();
+            pStmt = conn.prepareStatement(SQL);
+            if (args != null && args.length > 0) {
+                for (int i = 0; i < args.length; i++) {
+                    pStmt.setObject(i + 1, args[i]);
+                }
+            }
+            int result = pStmt.executeUpdate();
+            if (result > 0)
+                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pStmt != null)
+                    pStmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 }
