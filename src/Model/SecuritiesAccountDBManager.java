@@ -1,7 +1,9 @@
+package Model;
+
 import java.sql.*;
 import java.util.ArrayList;
 
-public class DBManager {
+public class SecuritiesAccountDBManager {
     private static String driverName = "com.mysql.cj.jdbc.Driver";
     private static String dbURL = "jdbc:mysql://localhost:3306/project?serverTimezone=UTC";
     private static String userName = "root";
