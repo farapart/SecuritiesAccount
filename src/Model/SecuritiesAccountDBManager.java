@@ -11,10 +11,11 @@ public class SecuritiesAccountDBManager {
 
     /**
      * 注册个人账户
-     * @param account
+     * @param account 个人账户注册信息
+     * @param flag 标志是否存在代理人，0表示存在，1表示不存在
      * @return 操作是否成功
      */
-    public static boolean newAccount(PersonalAccount account, int flag) {
+    public static boolean newPersonalAccount(PersonalAccount account, int flag) {
         if(flag == 0){
             String sql = "INSERT INTO personal_account(register_date, name, gender, id_no, " +
                     "family_add, career, education, organization, phone_no, agent_id_no) VALUES(?, ?, ?, ?, ?, ?, ?, " +
@@ -36,10 +37,10 @@ public class SecuritiesAccountDBManager {
 
     /**
      * 注册法人账户
-     * @param account
+     * @param account 法人账户注册信息
      * @return 操作是否成功
      */
-    public static boolean newAccount(CorporateAccount account) {
+    public static boolean newCorporateAccount(CorporateAccount account) {
         String sql = "INSERT INTO corporate_account(register_no, business_license_no, " +
                 "legal_representative_id, legal_representative_name, legal_representative_phone_no, " +
                 "legal_representative_add, authorizer_name, authorizer_id, authorizer_phone_no, authorizer_add) " +
@@ -50,35 +51,15 @@ public class SecuritiesAccountDBManager {
         account.getAuthorizer_phone_no(), account.getAuthorizer_add()};
         return executeUpdate(sql, args);
     }
-// 删除操作更改为使用setInformation()更改状态为“已删除”
-//    /**
-//     * 删除个人账户
-//     * @param account
-//     * @return 操作是否成功
-//     */
-//    public static boolean deleteAccount(PersonalAccount account) {
-//        String sql = "DELETE FROM personal_account WHERE securities_id='" + account.getSecurities_id() + "'";
-//        return executeUpdate(sql, null);
-//    }
-//
-//    /**
-//     * 删除法人账户
-//     * @param account
-//     * @return 操作是否成功
-//     */
-//    public static boolean deleteAccount(CorporateAccount account) {
-//        String sql = "DELETE FROM corporate_account WHERE securities_id='" + account.getSecurities_id() + "'";
-//        return executeUpdate(sql, null);
-//    }
 
     /**
      * 获取个人账户信息
      * @param id_no 身份证号
      * @param account 返回的个人账户
      * @param fundAccount 返回的资金账户
-     * @return 操作是否成功
+     * @return 操作是否成功，即是否存在该账户
      */
-    public static boolean getInformation(String id_no, PersonalAccount account, ArrayList<String> fundAccount) {
+    public static boolean getPersonalAccount(String id_no, PersonalAccount account, ArrayList<String> fundAccount) {
         String sql = "SELECT * FROM ? WHERE ?=?";
         Object []args = {"personal_account", "id_no", id_no};
         ResultSet rs = executeQuery(sql, args);
@@ -119,9 +100,9 @@ public class SecuritiesAccountDBManager {
      * @param register_no 注册号码
      * @param account 返回的法人账户
      * @param fundAccount 返回的资金账户
-     * @return 操作是否成功
+     * @return 操作是否成功，即是否存在该账户
      */
-    public static boolean getInformation(String register_no, CorporateAccount account, ArrayList<String> fundAccount) {
+    public static boolean getCorporateAccount(String register_no, CorporateAccount account, ArrayList<String> fundAccount) {
         String sql = "SELECT * FROM ? WHERE ?=?";
         Object []args = {"corporate_account", "register_no", register_no};
         ResultSet rs = executeQuery(sql, args);
@@ -163,33 +144,63 @@ public class SecuritiesAccountDBManager {
     }
 
     /**
-     * 修改个人账户
+     * 修改个人账户中除了securities_id、register_date和state之外的信息
      * @param account
-     * @return
+     * @return 操作是否成功
      */
-    public static boolean setInformation(PersonalAccount account) {
+    public static boolean modifyPersonalAccount(PersonalAccount account) {
         String sql = "UPDATE personal_account SET name=?, gender=?, id_no=?, family_add=?, career=?, education=?, " +
-                "organization=?, phone_no=?, agent_id_no=?, sate=?";
+                "organization=?, phone_no=?, agent_id_no=?";
         Object []args = {account.getName(), account.getGender(), account.getId_no(), account.getFamily_add(),
                 account.getCareer(), account.getEducation(), account.getOrganization(), account.getPhone_no(),
-                account.getAgent_id_no(), account.getState()};
+                account.getAgent_id_no()};
         return executeUpdate(sql, args);
     }
 
     /**
-     * 修改法人账户
+     * 修改法人账户中除了securities_id和state之外的信息
      * @param account
-     * @return
+     * @return 操作是否成功
      */
-    public static boolean setInformation(CorporateAccount account) {
+    public static boolean modifyCorporateAccount(CorporateAccount account) {
         String sql = "UPDATE corporate_account SET register_no=?, business_license_no=?, legal_representative_id=?, " +
                 "legal_representative_name=?, legal_representative_phone_no=?, legal_representative_add=?, " +
-                "authorizer_name=?, authorizer_id=?, authorizer_phone_no=?, authorizer_add=?, state=?";
+                "authorizer_name=?, authorizer_id=?, authorizer_phone_no=?, authorizer_add=?";
         Object []args = {account.getRegister_no(), account.getBusiness_license_no(), account.getLegal_representative_id(),
                 account.getLegal_representative_name(), account.getLegal_representative_phone_no(),
                 account.getLegal_representative_add(), account.getAuthorizer_name(), account.getAuthorizer_id(),
-                account.getAuthorizer_phone_no(), account.getAuthorizer_add(), account.getState()};
+                account.getAuthorizer_phone_no(), account.getAuthorizer_add()};
         return executeUpdate(sql, args);
+    }
+
+    /**
+     * 修改个人账户状态
+     * @param id_no 身份证号
+     * @param state
+     * @return 操作是否成功
+     */
+    public static boolean modifyPersonalState(String id_no, int state) {
+        return true;
+    }
+
+    /**
+     * 修改法人账户状态
+     * @param register_no 注册号码
+     * @param state
+     * @return 操作是否成功
+     */
+    public static boolean modifyCorporateState(String register_no, int state) {
+        return true;
+    }
+
+    /**
+     * 更新证券账户与资金账户的关联信息，使用newID代替所有的oldID
+     * @param oldID
+     * @param newID
+     * @return 操作是否成功
+     */
+    public static boolean modifySecuritiesFunds(int oldID, int newID) {
+        return true;
     }
 
     /**

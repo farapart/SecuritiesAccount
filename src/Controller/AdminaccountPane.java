@@ -181,11 +181,11 @@ public class AdminaccountPane implements Initializable {
 
         if(checktextField(rppsid)){
             PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText(), rppsid.getText());
-            db.newAccount(account1, 0);
+            db.newPersonalAccount(account1, 0);
             this.goToMessage("恭喜注册成功",String.valueOf(account1.getSecurities_id()));
         }else{
             PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText());
-            db.newAccount(account1, 1);
+            db.newPersonalAccount(account1, 1);
             this.goToMessage("恭喜注册成功", String.valueOf(account1.getSecurities_id()));
         }
     }
