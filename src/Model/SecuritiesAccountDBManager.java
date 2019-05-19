@@ -206,6 +206,7 @@ public class SecuritiesAccountDBManager {
             conn = DriverManager.getConnection(URL, user, password);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
