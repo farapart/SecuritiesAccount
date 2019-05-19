@@ -1,13 +1,13 @@
 package Model;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class SecuritiesAccountDBManager {
-    private static String driverName = "com.mysql.cj.jdbc.Driver";
-    private static String dbURL = "jdbc:mysql://localhost:3306/project?serverTimezone=UTC";
-    private static String userName = "root";
-    private static String userPwd = "";
+    private String driverName = "com.mysql.cj.jdbc.Driver";
+    private String dbURL = "jdbc:mysql://localhost:3306/project?serverTimezone=UTC";
+    private String userName = "root";
+    private String userPwd = "";
 
     /**
      * 注册个人账户
@@ -15,7 +15,7 @@ public class SecuritiesAccountDBManager {
      * @param flag 标志是否存在代理人，0表示存在，1表示不存在
      * @return 操作是否成功
      */
-    public static boolean newPersonalAccount(PersonalAccount account, int flag) {
+    public boolean newPersonalAccount(PersonalAccount account, int flag) {
         if(flag == 0){
             String sql = "INSERT INTO personal_account(register_date, name, gender, id_no, " +
                     "family_add, career, education, organization, phone_no, agent_id_no) VALUES(?, ?, ?, ?, ?, ?, ?, " +
@@ -40,7 +40,7 @@ public class SecuritiesAccountDBManager {
      * @param account 法人账户注册信息
      * @return 操作是否成功
      */
-    public static boolean newCorporateAccount(CorporateAccount account) {
+    public boolean newCorporateAccount(CorporateAccount account) {
         String sql = "INSERT INTO corporate_account(register_no, business_license_no, " +
                 "legal_representative_id, legal_representative_name, legal_representative_phone_no, " +
                 "legal_representative_add, authorizer_name, authorizer_id, authorizer_phone_no, authorizer_add) " +
@@ -56,15 +56,19 @@ public class SecuritiesAccountDBManager {
      * 获取个人账户信息
      * @param id_no 身份证号
      * @param account 返回的个人账户
-     * @param fundAccount 返回的资金账户
      * @return 操作是否成功，即是否存在该账户
      */
-    public static boolean getPersonalAccount(String id_no, PersonalAccount account, ArrayList<String> fundAccount) {
-        String sql = "SELECT * FROM ? WHERE ?=?";
-        Object []args = {"personal_account", "id_no", id_no};
-        ResultSet rs = executeQuery(sql, args);
+    public boolean getPersonalAccount(String id_no, PersonalAccount account) {
+        String sql = "SELECT * FROM personal_account WHERE id_no=?";
         boolean result = false;
+        Connection conn = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
         try {
+            conn = getConn();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setObject(1, id_no);
+            rs = pStmt.executeQuery();
             if (rs.next()) {
                 account.setSecurities_id(rs.getInt(1));
                 account.setRegister_date(rs.getDate(2));
@@ -78,19 +82,22 @@ public class SecuritiesAccountDBManager {
                 account.setPhone_no(rs.getString(10));
                 account.setAgent_id_no(rs.getString(11));
                 account.setState(rs.getInt(12));
-                args[0] = "securities_fund";
-                args[1] = "securities_id";
-                args[2] = account.getSecurities_id();
-                rs = executeQuery(sql, args);
-                while (rs.next()) {
-                    fundAccount.add(rs.getString(2));
-                }
                 result = true;
             }
-            if (rs != null)
-                rs.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pStmt != null)
+                    pStmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -99,15 +106,19 @@ public class SecuritiesAccountDBManager {
      * 获取法人账户信息
      * @param register_no 注册号码
      * @param account 返回的法人账户
-     * @param fundAccount 返回的资金账户
      * @return 操作是否成功，即是否存在该账户
      */
-    public static boolean getCorporateAccount(String register_no, CorporateAccount account, ArrayList<String> fundAccount) {
-        String sql = "SELECT * FROM ? WHERE ?=?";
-        Object []args = {"corporate_account", "register_no", register_no};
-        ResultSet rs = executeQuery(sql, args);
-        boolean find = false;
+    public boolean getCorporateAccount(String register_no, CorporateAccount account) {
+        String sql = "SELECT * FROM corporate_account WHERE register_no=?";
+        boolean result = false;
+        Connection conn = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
         try {
+            conn = getConn();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setObject(1, register_no);
+            rs = pStmt.executeQuery();
             if (rs.next()) {
                 account.setSecurities_id(rs.getInt(1));
                 account.setRegister_no(rs.getString(2));
@@ -121,14 +132,7 @@ public class SecuritiesAccountDBManager {
                 account.setAuthorizer_phone_no(rs.getString(10));
                 account.setAuthorizer_add(rs.getString(11));
                 account.setState(rs.getInt(12));
-                args[0] = "securities_fund";
-                args[1] = "securities_id";
-                args[2] = account.getSecurities_id();
-                rs = executeQuery(sql, args);
-                while (rs.next()) {
-                    fundAccount.add(rs.getString(2));
-                }
-                find = true;
+                result = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -136,11 +140,56 @@ public class SecuritiesAccountDBManager {
             try {
                 if (rs != null)
                     rs.close();
+                if (pStmt != null)
+                    pStmt.close();
+                if (conn != null)
+                    conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        return find;
+        return result;
+    }
+
+    /**
+     * 获取关联的资金账户ID
+     * @param securities_id 证券账户ID
+     * @return 返回关联的资金账号ID
+     */
+    public List<String> getSecuritiesFund(int securities_id) {
+        String sql = "SELECT * from securities_fund WHERE securities_id=?";
+        boolean result = false;
+        List<String> list = new ArrayList<String>();
+        Connection conn = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConn();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setObject(1, securities_id);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                result = true;
+                list.add(rs.getString(2));
+                while (rs.next()) {
+                    list.add(rs.getString(2));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pStmt != null)
+                    pStmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
     }
 
     /**
@@ -148,12 +197,12 @@ public class SecuritiesAccountDBManager {
      * @param account
      * @return 操作是否成功
      */
-    public static boolean modifyPersonalAccount(PersonalAccount account) {
+    public boolean modifyPersonalAccount(PersonalAccount account) {
         String sql = "UPDATE personal_account SET name=?, gender=?, id_no=?, family_add=?, career=?, education=?, " +
-                "organization=?, phone_no=?, agent_id_no=?";
+                "organization=?, phone_no=?, agent_id_no=? WHERE securities_id=?";
         Object []args = {account.getName(), account.getGender(), account.getId_no(), account.getFamily_add(),
                 account.getCareer(), account.getEducation(), account.getOrganization(), account.getPhone_no(),
-                account.getAgent_id_no()};
+                account.getAgent_id_no(), account.getSecurities_id()};
         return executeUpdate(sql, args);
     }
 
@@ -162,14 +211,14 @@ public class SecuritiesAccountDBManager {
      * @param account
      * @return 操作是否成功
      */
-    public static boolean modifyCorporateAccount(CorporateAccount account) {
+    public boolean modifyCorporateAccount(CorporateAccount account) {
         String sql = "UPDATE corporate_account SET register_no=?, business_license_no=?, legal_representative_id=?, " +
                 "legal_representative_name=?, legal_representative_phone_no=?, legal_representative_add=?, " +
-                "authorizer_name=?, authorizer_id=?, authorizer_phone_no=?, authorizer_add=?";
+                "authorizer_name=?, authorizer_id=?, authorizer_phone_no=?, authorizer_add=? WHERE securities_id=?";
         Object []args = {account.getRegister_no(), account.getBusiness_license_no(), account.getLegal_representative_id(),
                 account.getLegal_representative_name(), account.getLegal_representative_phone_no(),
                 account.getLegal_representative_add(), account.getAuthorizer_name(), account.getAuthorizer_id(),
-                account.getAuthorizer_phone_no(), account.getAuthorizer_add()};
+                account.getAuthorizer_phone_no(), account.getAuthorizer_add(), account.getSecurities_id()};
         return executeUpdate(sql, args);
     }
 
@@ -179,8 +228,10 @@ public class SecuritiesAccountDBManager {
      * @param state
      * @return 操作是否成功
      */
-    public static boolean modifyPersonalState(String id_no, int state) {
-        return true;
+    public boolean modifyPersonalState(String id_no, int state) {
+        String sql = "UPDATE personal_account SET state=? WHERE id_no=?";
+        Object []args = {state, id_no};
+        return executeUpdate(sql, args);
     }
 
     /**
@@ -189,8 +240,10 @@ public class SecuritiesAccountDBManager {
      * @param state
      * @return 操作是否成功
      */
-    public static boolean modifyCorporateState(String register_no, int state) {
-        return true;
+    public boolean modifyCorporateState(String register_no, int state) {
+        String sql = "UPDATE corporate_account SET state=? WHERE register_no=?";
+        Object []args = {state, register_no};
+        return executeUpdate(sql, args);
     }
 
     /**
@@ -199,15 +252,17 @@ public class SecuritiesAccountDBManager {
      * @param newID
      * @return 操作是否成功
      */
-    public static boolean modifySecuritiesFunds(int oldID, int newID) {
-        return true;
+    public boolean modifySecuritiesFunds(int oldID, int newID) {
+        String sql = "UPDATE securities_fund SET securities_id=? WHERE securities_id=?";
+        Object []args = {newID, oldID};
+        return executeUpdate(sql, args);
     }
 
     /**
      * 获取数据库连接
      * @return
      */
-    private static Connection getConn() {
+    private Connection getConn() {
         Connection conn = null;
         try {
             Class.forName(driverName);
@@ -227,10 +282,11 @@ public class SecuritiesAccountDBManager {
      * @param args
      * @return 查询结果
      */
-    public static ResultSet executeQuery(String SQL, Object []args) {
+    public List<Map<String, Object>> executeQuery(String SQL, Object []args) {
         Connection conn = null;
         PreparedStatement pStmt = null;
         ResultSet rs = null;
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         try {
             conn = getConn();
             pStmt = conn.prepareStatement(SQL);
@@ -240,13 +296,23 @@ public class SecuritiesAccountDBManager {
                 }
             }
             rs = pStmt.executeQuery();
-            return rs;
+            ResultSetMetaData metaData = rs.getMetaData();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                for (int i = 0; i < metaData.getColumnCount(); i++) {
+                    String colName = metaData.getColumnName(i + 1);
+                    Object colValue = rs.getObject(colName);
+                    if (colValue == null) {
+                        colValue = "";
+                    }
+                    map.put(colName, colValue);
+                }
+                list.add(map);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                if (rs != null)
-                    rs.close();
                 if (pStmt != null)
                     pStmt.close();
                 if (conn != null)
@@ -255,7 +321,7 @@ public class SecuritiesAccountDBManager {
                 e.printStackTrace();
             }
         }
-        return null;
+        return list;
     }
 
     /**
@@ -264,7 +330,7 @@ public class SecuritiesAccountDBManager {
      * @param args
      * @return 操作是否成功
      */
-    public static boolean executeUpdate(String SQL, Object []args) {
+    public boolean executeUpdate(String SQL, Object []args) {
         Connection conn = null;
         PreparedStatement pStmt = null;
         try {
