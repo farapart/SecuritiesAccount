@@ -14,14 +14,24 @@ public class SecuritiesAccountDBManager {
      * @param account
      * @return 操作是否成功
      */
-    public static boolean newAccount(PersonalAccount account) {
-        String sql = "INSERT INTO personal_account(securities_id, register_date, name, gender, id_no, " +
-                "family_add, career, education, organization, phone_no, agent_id_no) VALUES(?, ?, ?, ?, ?, ?, ?, ?, " +
-                "?, ?, ?)";
-        Object []args = {account.getSecurities_id(), account.getRegister_date(), account.getName(),
-        account.getGender(), account.getId_no(), account.getFamily_add(), account.getCareer(), account.getEducation(),
-        account.getOrganization(), account.getPhone_no(), account.getAgent_id_no()};
-        return executeUpdate(sql, args);
+    public static boolean newAccount(PersonalAccount account, int flag) {
+        if(flag == 0){
+            String sql = "INSERT INTO personal_account(register_date, name, gender, id_no, " +
+                    "family_add, career, education, organization, phone_no, agent_id_no) VALUES(?, ?, ?, ?, ?, ?, ?, " +
+                    "?, ?, ?)";
+            Object []args = {account.getRegister_date(), account.getName(),
+                    account.getGender(), account.getId_no(), account.getFamily_add(), account.getCareer(), account.getEducation(),
+                    account.getOrganization(), account.getPhone_no(), account.getAgent_id_no()};
+            return executeUpdate(sql, args);
+        }else{
+            String sql = "INSERT INTO personal_account(register_date, name, gender, id_no, " +
+                    "family_add, career, education, organization, phone_no) VALUES(?, ?, ?, ?, ?, ?, ?, " +
+                    "?, ?)";
+            Object []args = {account.getRegister_date(), account.getName(),
+                    account.getGender(), account.getId_no(), account.getFamily_add(), account.getCareer(), account.getEducation(),
+                    account.getOrganization(), account.getPhone_no()};
+            return executeUpdate(sql, args);
+        }
     }
 
     /**
@@ -75,7 +85,7 @@ public class SecuritiesAccountDBManager {
         boolean result = false;
         try {
             if (rs.next()) {
-                account.setSecurities_id(rs.getString(1));
+                account.setSecurities_id(rs.getInt(1));
                 account.setRegister_date(rs.getDate(2));
                 account.setName(rs.getString(3));
                 account.setGender(rs.getBoolean(4));

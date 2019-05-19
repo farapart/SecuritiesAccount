@@ -1,9 +1,9 @@
 package Model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class PersonalAccount implements ClassAccount {
-    private String securities_id;
+    private int securities_id;
     private java.sql.Date register_date;
     private String name;
     private Boolean gender;
@@ -13,13 +13,12 @@ public class PersonalAccount implements ClassAccount {
     private String education;
     private String organization;
     private String phone_no;
-    private String agent_id_no;
+    private String agent_id_no=null;
 
     public PersonalAccount(){}
 
 
-    public PersonalAccount(String securities_id, java.sql.Date register_date, String name, Boolean gender, String id_no, String family_add, String career, String education, String organization, String phone_no) {
-        this.securities_id = securities_id;
+    public PersonalAccount(java.sql.Date register_date, String name, Boolean gender, String id_no, String family_add, String career, String education, String organization, String phone_no) {
         this.register_date = register_date;
         this.name = name;
         this.gender = gender;
@@ -29,13 +28,27 @@ public class PersonalAccount implements ClassAccount {
         this.education = education;
         this.organization = organization;
         this.phone_no = phone_no;
+
     }
 
-    public String getSecurities_id() {
+    public PersonalAccount( java.sql.Date register_date, String name, Boolean gender, String id_no, String family_add, String career, String education, String organization, String phone_no, String agent_id_no) {
+        this.register_date = register_date;
+        this.name = name;
+        this.gender = gender;
+        this.id_no = id_no;
+        this.family_add = family_add;
+        this.career = career;
+        this.education = education;
+        this.organization = organization;
+        this.phone_no = phone_no;
+        this.agent_id_no = agent_id_no;
+    }
+
+    public int getSecurities_id() {
         return securities_id;
     }
 
-    public void setSecurities_id(String securities_id) {
+    public void setSecurities_id(int securities_id) {
         this.securities_id = securities_id;
     }
 
