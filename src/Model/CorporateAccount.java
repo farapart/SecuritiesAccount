@@ -1,7 +1,7 @@
 package Model;
 
 public class CorporateAccount implements ClassAccount {
-    private String securities_id;
+    private int securities_id;
     private String register_no;
     private String business_license_no;
     private String legal_representative_id;
@@ -12,11 +12,11 @@ public class CorporateAccount implements ClassAccount {
     private String authorizer_id;
     private String authorizer_phone_no;
     private String authorizer_add;
+    private int state;
 
     public CorporateAccount(){}
 
-    public CorporateAccount(String securities_id, String register_no, String business_license_no, String legal_representative_id, String legal_representative_name, String legal_representative_phone_no, String legal_representative_add, String authorizer_name, String authorizer_id, String authorizer_phone_no, String authorizer_add) {
-        this.securities_id = securities_id;
+    public CorporateAccount(String register_no, String business_license_no, String legal_representative_id, String legal_representative_name, String legal_representative_phone_no, String legal_representative_add, String authorizer_name, String authorizer_id, String authorizer_phone_no, String authorizer_add) {
         this.register_no = register_no;
         this.business_license_no = business_license_no;
         this.legal_representative_id = legal_representative_id;
@@ -29,11 +29,11 @@ public class CorporateAccount implements ClassAccount {
         this.authorizer_add = authorizer_add;
     }
 
-    public String getSecurities_id() {
+    public int getSecurities_id() {
         return securities_id;
     }
 
-    public void setSecurities_id(String securities_id) {
+    public void setSecurities_id(int securities_id) {
         this.securities_id = securities_id;
     }
 
@@ -116,6 +116,10 @@ public class CorporateAccount implements ClassAccount {
     public void setAuthorizer_add(String authorizer_add) {
         this.authorizer_add = authorizer_add;
     }
+
+    public int getState() { return state; }
+
+    public void setState(int state) { this.state = state; }
 
     public boolean reportLoss(){
         return true;

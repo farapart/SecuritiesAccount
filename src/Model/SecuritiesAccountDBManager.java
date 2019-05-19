@@ -40,36 +40,36 @@ public class SecuritiesAccountDBManager {
      * @return 操作是否成功
      */
     public static boolean newAccount(CorporateAccount account) {
-        String sql = "INSERT INTO corporate_account(securities_id, register_no, business_license_no, " +
+        String sql = "INSERT INTO corporate_account(register_no, business_license_no, " +
                 "legal_representative_id, legal_representative_name, legal_representative_phone_no, " +
                 "legal_representative_add, authorizer_name, authorizer_id, authorizer_phone_no, authorizer_add) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        Object []args = {account.getSecurities_id(), account.getRegister_no(), account.getBusiness_license_no(),
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Object []args = {account.getRegister_no(), account.getBusiness_license_no(),
         account.getLegal_representative_id(), account.getLegal_representative_name(), account.getBusiness_license_no(),
         account.getLegal_representative_add(), account.getAuthorizer_name(), account.getAuthorizer_id(),
         account.getAuthorizer_phone_no(), account.getAuthorizer_add()};
         return executeUpdate(sql, args);
     }
-
-    /**
-     * 删除个人账户
-     * @param account
-     * @return 操作是否成功
-     */
-    public static boolean deleteAccount(PersonalAccount account) {
-        String sql = "DELETE FROM personal_account WHERE securities_id='" + account.getSecurities_id() + "'";
-        return executeUpdate(sql, null);
-    }
-
-    /**
-     * 删除法人账户
-     * @param account
-     * @return 操作是否成功
-     */
-    public static boolean deleteAccount(CorporateAccount account) {
-        String sql = "DELETE FROM corporate_account WHERE securities_id='" + account.getSecurities_id() + "'";
-        return executeUpdate(sql, null);
-    }
+// 删除操作更改为使用setInformation()更改状态为“已删除”
+//    /**
+//     * 删除个人账户
+//     * @param account
+//     * @return 操作是否成功
+//     */
+//    public static boolean deleteAccount(PersonalAccount account) {
+//        String sql = "DELETE FROM personal_account WHERE securities_id='" + account.getSecurities_id() + "'";
+//        return executeUpdate(sql, null);
+//    }
+//
+//    /**
+//     * 删除法人账户
+//     * @param account
+//     * @return 操作是否成功
+//     */
+//    public static boolean deleteAccount(CorporateAccount account) {
+//        String sql = "DELETE FROM corporate_account WHERE securities_id='" + account.getSecurities_id() + "'";
+//        return executeUpdate(sql, null);
+//    }
 
     /**
      * 获取个人账户信息
@@ -96,6 +96,7 @@ public class SecuritiesAccountDBManager {
                 account.setOrganization(rs.getString(9));
                 account.setPhone_no(rs.getString(10));
                 account.setAgent_id_no(rs.getString(11));
+                account.setState(rs.getInt(12));
                 args[0] = "securities_fund";
                 args[1] = "securities_id";
                 args[2] = account.getSecurities_id();
@@ -127,7 +128,7 @@ public class SecuritiesAccountDBManager {
         boolean find = false;
         try {
             if (rs.next()) {
-                account.setSecurities_id(rs.getString(1));
+                account.setSecurities_id(rs.getInt(1));
                 account.setRegister_no(rs.getString(2));
                 account.setBusiness_license_no(rs.getString(3));
                 account.setLegal_representative_id(rs.getString(4));
@@ -138,6 +139,7 @@ public class SecuritiesAccountDBManager {
                 account.setAuthorizer_id(rs.getString(9));
                 account.setAuthorizer_phone_no(rs.getString(10));
                 account.setAuthorizer_add(rs.getString(11));
+                account.setState(rs.getInt(12));
                 args[0] = "securities_fund";
                 args[1] = "securities_id";
                 args[2] = account.getSecurities_id();
@@ -167,10 +169,10 @@ public class SecuritiesAccountDBManager {
      */
     public static boolean setInformation(PersonalAccount account) {
         String sql = "UPDATE personal_account SET name=?, gender=?, id_no=?, family_add=?, career=?, education=?, " +
-                "organization=?, phone_no=?, agent_id_no=?";
+                "organization=?, phone_no=?, agent_id_no=?, sate=?";
         Object []args = {account.getName(), account.getGender(), account.getId_no(), account.getFamily_add(),
                 account.getCareer(), account.getEducation(), account.getOrganization(), account.getPhone_no(),
-                account.getAgent_id_no()};
+                account.getAgent_id_no(), account.getState()};
         return executeUpdate(sql, args);
     }
 
@@ -182,11 +184,11 @@ public class SecuritiesAccountDBManager {
     public static boolean setInformation(CorporateAccount account) {
         String sql = "UPDATE corporate_account SET register_no=?, business_license_no=?, legal_representative_id=?, " +
                 "legal_representative_name=?, legal_representative_phone_no=?, legal_representative_add=?, " +
-                "authorizer_name=?, authorizer_id=?, authorizer_phone_no=?, authorizer_add=?";
+                "authorizer_name=?, authorizer_id=?, authorizer_phone_no=?, authorizer_add=?, state=?";
         Object []args = {account.getRegister_no(), account.getBusiness_license_no(), account.getLegal_representative_id(),
                 account.getLegal_representative_name(), account.getLegal_representative_phone_no(),
                 account.getLegal_representative_add(), account.getAuthorizer_name(), account.getAuthorizer_id(),
-                account.getAuthorizer_phone_no(), account.getAuthorizer_add()};
+                account.getAuthorizer_phone_no(), account.getAuthorizer_add(), account.getState()};
         return executeUpdate(sql, args);
     }
 

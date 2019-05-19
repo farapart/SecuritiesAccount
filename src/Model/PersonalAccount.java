@@ -14,6 +14,7 @@ public class PersonalAccount implements ClassAccount {
     private String organization;
     private String phone_no;
     private String agent_id_no=null;
+    private int state;
 
     public PersonalAccount(){}
 
@@ -131,6 +132,10 @@ public class PersonalAccount implements ClassAccount {
     public void setAgent_id_no(String agent_id_no) {
         this.agent_id_no = agent_id_no;
     }
+
+    public int getState() { return state; }
+
+    public void setState(int state) { this.state = state; }
 
     public boolean reportLoss(){
         return true;
