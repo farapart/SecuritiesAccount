@@ -24,6 +24,10 @@ public class AdminaccountPane implements Initializable {
 
     
     SecuritiesAccountDBManager db = new SecuritiesAccountDBManager();
+    @FXML
+    public void backtoMain1(ActionEvent event){
+        //todo跟大组连接用不用写 
+    }
 
     @FXML
     private MenuBar menuBar;
@@ -31,7 +35,8 @@ public class AdminaccountPane implements Initializable {
     @FXML
     private Text welcome;
 
-    
+    @FXML
+    private StackPane pageressui;
 
     @FXML
     private StackPane pagecc;
@@ -125,59 +130,82 @@ public class AdminaccountPane implements Initializable {
         date.setValue(date1);
     }
 
-    @FXML
-    public void personalregister(ActionEvent event) {
+    public boolean personalcheck(){
+        boolean check = false; 
         if(!checktextField(psname)){
             message.setText("请输入你的名字");
             message.setVisible(true);
-            return;
+            return check;
         }
 
         if(!checktextField(psid)){
             message.setText("请输入你的身份证号");
             message.setVisible(true);
-            return;
+            return check;
+        }
+        if(psid.getText().length()!=18){
+            message.setText("请输入正确的身份证号");
+            message.setVisible(true);
+            return check;
+        }
+        PersonalAccount temp = new PersonalAccount();
+        if(db.getPersonalAccount(psid.getText(), temp)){
+            if(temp.getState() == 1){
+                message.setText("您的账户已被冻结，需要补办");
+                message.setVisible(true);
+                return check;
+            }else if(temp.getState() == 0){
+                message.setText("您已经注册过证券账户！");
+                message.setVisible(true);
+                return check;
+            }
         }
         if(!checktextField(prof)){
             message.setVisible(true);
             message.setText("请输入你的职业");
-            return;
+            return check;
         }
         if(!checktextField(psaddr)){
             message.setVisible(true);
             message.setText("请输入你的地址");
-            return;
+            return check;
         }
         if(!checktextField(pstel)){
             message.setVisible(true);
             message.setText("请输入你的电话");
-            return;
+            return check;
         }
         if(!checktextField(psjob)){
             message.setVisible(true);
             message.setText("请输入你的工作");
-            return;
+            return check;
         }
         if(!checktextField(diplome)){
             message.setVisible(true);
             message.setText("请输入你的学历");
-            return;
+            return check;
         }
         if(!man.isSelected() && !women.isSelected()){
             message.setVisible(true);
             message.setText("请选择你的性别");
-            return;
+            return check;
         }
-       // String pattern = "yyyy年MM月dd日 HH时mm分ss秒";
-        //SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        return true;
+    }
 
-        //String date1=sdf.format(date.getValue());
+    @FXML
+    public void personalregister(ActionEvent event) {
+        
+        if(!this.personalcheck()){
+        return;
+        }//todo还需验证账户是否存在以及删除等情况
+
         boolean sex;
         if(man.isSelected()){
             sex=true;
         }else{
             sex=false;
-        }//todo
+        }
 
         if(checktextField(rppsid)){
             PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText(), rppsid.getText());
@@ -194,7 +222,7 @@ public class AdminaccountPane implements Initializable {
     @FXML
     public void cancelBtn(ActionEvent event) {
         pagepsrs.setVisible(false);
-        pagers.setVisible(true);
+        pagechose.setVisible(true);
     }
 
     //公司注册
@@ -232,65 +260,122 @@ public class AdminaccountPane implements Initializable {
     private Label message1;
 
     @FXML
-    void companyregister(ActionEvent event) {
-        if(!checktextField(cptradername)){
-            message1.setText("请输入交易者名字");
+    private TextField cplicence;
+
+    @FXML
+    private TextField cprpid;
+
+    public boolean companycheck(){
+        if(!checktextField(cpid)){
+            message1.setText("请输入法人注册登记号");
             message1.setVisible(true);
-            return;
+            return  false;
+        }
+        CorporateAccount temp = new CorporateAccount();
+        if(db.getCorporateAccount(cpid.getText(), temp)){
+            if(temp.getState() == 1){
+                message.setText("您的账户已被冻结，需要补办");
+                message.setVisible(true);
+                return false;
+            }else if(temp.getState() == 0){
+                message.setText("该法人注册账号已经注册过证券账户！");
+                message.setVisible(true);
+                return false;
+            }
+        }
+
+        if(!checktextField(cplicence)){
+            message1.setText("请输入营业执照编号");
+            message1.setVisible(true);
+            return false;
+        }
+
+        if(!checktextField(cprpid)){
+            message1.setText("请输入法人身份证号");
+            message1.setVisible(true);
+            return false;
+        }
+        
+        if(!checktextField(cptradername)){
+            message1.setText("请输入授权人姓名");
+            message1.setVisible(true);
+            return false;
         }
    
         if(!checktextField(cptradertel)){
-            message1.setText("请输入交易者的电话");
+            message1.setText("请输入授权人电话");
             message1.setVisible(true);
-            return;
+            return false;
         }
 
         if(!checktextField(cpname)){
-            message1.setText("请输入公司名称");
+            message1.setText("请输入法人姓名");
             message1.setVisible(true);
-            return;
+            return false;
         }
 
-        if(!checktextField(cpid)){
-            message1.setText("请输入公司注册号");
-            message1.setVisible(true);
-            return;
+
+        if(cpid.getText().length()!=9){
+            ccms.setText("请输入正确的法人注册登记号");
+            ccms.setVisible(true);
+            return false;
         }
 
         if(!checktextField(cptel)){
-            message1.setText("请输入公司电话");
+            message1.setText("请输入法人联系电话");
             message1.setVisible(true);
-            return;
+            return false;
         }
 
         if(!checktextField(cpaddr)){
-            message1.setText("请输入公司地址");
+            message1.setText("请输入法人联系地址");
             message1.setVisible(true);
-            return;
+            return false;
         }
 
         if(!checktextField(cptraderid)){
-            message1.setText("请输入交易者的身份证号");
+            message1.setText("请输入授权人有效身份证号");
             message1.setVisible(true);
-            return;
+            return false;
+        }
+
+        if(cptraderid.getText().length()!=18){
+            message1.setText("请输入正确的授权人有效身份证号");
+            message1.setVisible(true);
+            return false;
         }
 
         if(!checktextField(cptraderaddr)){
-            message1.setText("请输入交易者的地址");
+            message1.setText("请输入授权人地址");
             message1.setVisible(true);
+            return false;
+        }
+
+         if(cprpid.getText().length()!=18){
+            message1.setText("请输入法人身份证号");
+            message1.setVisible(true);
+            return false;
+        }
+        return true;
+
+    }
+
+    @FXML
+    void companyregister(ActionEvent event) {
+
+        if(!companycheck()){
             return;
-        }//todo营业执照 法人身份证号贴加
-
-        //CorporateAccount account1=new CorporateAccount(securites_id, cpid.getText(), cplicence.getText(),cprpid.getText(), cpname.getText(), cptel.getText(), cpaddr.getText(), cptradername.getText(), cptraderid.getText(), cptradertel.getText(), cptraderaddr.getText());
-        //db.newAccount(account1);
-        //this.goToMessage("恭喜注册成功",account.getSecurities_id());
-
+        }
+        //todo还需验证账户存在等问题
+        CorporateAccount temp = new CorporateAccount(cpid.getText(),cplicence.getText(), cprpid.getText(),cpname.getText(), cptel.getText(),  cpaddr.getText(), cptradername.getText(), cptraderid.getText(), cptradertel.getText(), cptraderaddr.getText());
+        db.newCorporateAccount(temp);
+        this.goToMessage("恭喜注册成功", String.valueOf(temp.getSecurities_id()));
     }
 
     @FXML
     void goback(ActionEvent event) {
         pagecprs.setVisible(false);
-        pagers.setVisible(true);
+        pagechose.setVisible(true);
     }
 
     //选择注册的方向
@@ -302,8 +387,11 @@ public class AdminaccountPane implements Initializable {
 
     @FXML
     void jumppsrs(ActionEvent event) {
-         pagepsrs.setVisible(true);
+        this.initTime();
+        pagepsrs.setVisible(true);
         pagers.setVisible(false);
+        psressuieBtn.setVisible(false);
+        psokbutton.setVisible(true);
 
     }
 
@@ -311,6 +399,8 @@ public class AdminaccountPane implements Initializable {
     void jumpcprs(ActionEvent event) {
         pagecprs.setVisible(true);
         pagers.setVisible(false);
+        cpressuieBtn.setVisible(false);
+        cpregisterBtn.setVisible(true);
     }
 
 
@@ -323,6 +413,9 @@ public class AdminaccountPane implements Initializable {
 
     @FXML
     private Button ccBTn;
+
+    @FXML
+    private Button ressuieBtn;
 
     @FXML
     void jumprs(ActionEvent event) {
@@ -342,6 +435,12 @@ public class AdminaccountPane implements Initializable {
         pagecc.setVisible(true);
     }
 
+    @FXML
+    void jumptoressuie(ActionEvent event) {
+        pagechose.setVisible(false);
+        pageressui.setVisible(true);
+    }
+
     //注销
      @FXML
     private TextField ccaccnb;
@@ -356,23 +455,68 @@ public class AdminaccountPane implements Initializable {
     private TextField ccidNb;
 
     @FXML
+    private Label ccms;
+
+
+
+    @FXML
     public void cancelok(ActionEvent event) {
         if(!checktextField(ccaccnb)){
-            message.setText("请输入你的账户");
-            message.setVisible(true);
+            ccms.setText("请输入你的账户");
+            ccms.setVisible(true);
             return;
         }
 
         if(!checktextField(ccidNb)){
-            message.setText("请输入你的身份证号");
-            message.setVisible(true);
+            ccms.setText("请输入你的身份证号或法人注册号");
+            ccms.setVisible(true);
             return;
         }
-        //todo
-//        if(ccidnb.getText().length)
-//        CorporateAccount account1=new CorporateAccount;
-//
-//        this.goToMessage("注销成功",account.getSecurities_id());
+        if(ccidNb.getText().length()!=18&&ccidNb.getText().length()!=9){
+            ccms.setText("请输入正确的身份证号或法人注册号");
+            ccms.setVisible(true);
+            return ;
+        }
+
+        int flag = 0;
+        PersonalAccount personal_temp = new PersonalAccount();
+        CorporateAccount corporate_temp = new CorporateAccount();
+        if(!db.getCorporateAccount(ccidNb.getText(), corporate_temp)){
+            flag = 1; // 法人账户不存在
+        }else{
+            if(corporate_temp.getState() == 2){
+                message1.setText("该账号不存在");
+                message1.setVisible(true);
+                return;
+            }
+            db.modifyCorporateState(ccidNb.getText(), 2);
+            message1.setText("删除成功！");
+            message1.setVisible(true);
+            return ;
+        }
+        if(!db.getPersonalAccount(ccidNb.getText(), personal_temp)){
+            flag = 2; // 个人账户不存在
+        }else{
+            if(personal_temp.getState() == 2){
+                message1.setText("该账号不存在");
+                message1.setVisible(true);
+                return;
+            }
+            db.modifyPersonalState(ccidNb.getText(), 2);
+            message1.setText("删除成功！");
+            message1.setVisible(true);
+            return ;
+        }
+
+
+        if(flag == 1 || flag == 2){
+            message1.setText("该账号不存在");
+            message1.setVisible(true);
+            return;
+        }
+        //todo还需验证账户存在等问题
+
+        //this.goToMessage("注销成功",account.getSecurities_id());
     }
    
    
@@ -394,6 +538,47 @@ public class AdminaccountPane implements Initializable {
          if(!checktextField(fridNb)){
             frms.setText("请输入身份证号");
             frms.setVisible(true);
+            return;
+        }
+        if(fridNb.getText().length()!=18&&fridNb.getText().length()!=9){
+            frms.setText("请输入正确的身份证号或法人注册号");
+            frms.setVisible(true);
+            return ;
+        }
+        int flag = 0;
+        PersonalAccount personal_temp = new PersonalAccount();
+        CorporateAccount corporate_temp = new CorporateAccount();
+        if(!db.getCorporateAccount(fridNb.getText(), corporate_temp)){
+            flag = 1; // 法人账户不存在
+        }else{
+            if(corporate_temp.getState() == 2){
+                message1.setText("该账号不存在");
+                message1.setVisible(true);
+                return;
+            }
+            db.modifyCorporateState(fridNb.getText(), 1);
+            message1.setText("冻结成功！");
+            message1.setVisible(true);
+            return ;
+        }
+        if(!db.getPersonalAccount(fridNb.getText(), personal_temp)){
+            flag = 2; // 个人账户不存在
+        }else{
+            if(personal_temp.getState() == 2){
+                message1.setText("该账号不存在");
+                message1.setVisible(true);
+                return;
+            }
+            db.modifyPersonalState(fridNb.getText(), 1);
+            message1.setText("冻结成功！");
+            message1.setVisible(true);
+            return ;
+        }
+
+
+        if(flag == 1 || flag == 2){
+            message1.setText("该账号不存在");
+            message1.setVisible(true);
             return;
         }
         //todo
@@ -419,8 +604,8 @@ public class AdminaccountPane implements Initializable {
     @FXML // fx:id="account"
     private Label msacc; // Value injected by FXMLLoader
 
-    public void setText1(String message1,String account1){
-        this.msms.setText(message1);
+    public void setText1(String message5,String account1){
+        this.msms.setText(message5);
         this.msacc.setText("账号: "+account1);
     }
 
@@ -438,14 +623,84 @@ public class AdminaccountPane implements Initializable {
         pagepsrs.setVisible(false);
         pagecprs.setVisible(false);
     }
+    //补办
 
+    @FXML
+    private Button cprs1;
 
+    @FXML
+    private Button psrs1;
 
-    
+    @FXML
+    private Button psressuieBtn;
 
+    @FXML
+    private Button cpressuieBtn;
 
-   
-   
+    @FXML
+    void jumppsrs1(ActionEvent event) {
+        this.initTime();
+        pagepsrs.setVisible(true);
+        pageressui.setVisible(false);
+        psressuieBtn.setVisible(true);
+        psokbutton.setVisible(false);
+
+    }
+
+    @FXML
+    void jumpcprs1(ActionEvent event) {
+        pagecprs.setVisible(true);
+        pageressui.setVisible(false);
+        cpressuieBtn.setVisible(true);
+        cpregisterBtn.setVisible(false);
+    }
+
+    @FXML
+    void companyressiue(ActionEvent event){
+        if(!companycheck()){
+            return;
+        }
+        //todo
+    }
+
+    @FXML
+    void psressuie(ActionEvent event){
+        if(!personalcheck()){
+            return;
+        }
+        boolean sex;
+        if(man.isSelected()){
+            sex=true;
+        }else{
+            sex=false;
+        }
+//        if(checktextField(rppsid)){
+////            PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText(), rppsid.getText());
+////            PersonalAccount old_account1 = new PersonalAccount();
+////            if(!db.getPersonalAccountID(String.valueOf(account1.getSecurities_id()), old_account1)){
+////                message1.setText("您还没有注册过证券账户！");
+////                message1.setVisible(true);
+////                return;
+////            }else{
+////                if(old_account1.getState() == 0){
+////                    message1.setText("您的账户目前是正常状态，无须补办！");
+////                    message1.setVisible(true);
+////                    return;
+////                }else if(old_account1.getState() == 1){
+////
+////                }
+////            }
+////            db.newPersonalAccount(account1, 0);
+////            this.goToMessage("恭喜注册成功",String.valueOf(account1.getSecurities_id()));
+////        }else{
+////            PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText());
+////            db.newPersonalAccount(account1, 1);
+////            this.goToMessage("恭喜注册成功", String.valueOf(account1.getSecurities_id()));
+////        }
+
+            //todo
+    }
+
 
   
 

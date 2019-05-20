@@ -29,6 +29,20 @@ public class CorporateAccount implements ClassAccount {
         this.authorizer_add = authorizer_add;
     }
 
+    public CorporateAccount(String register_no, String business_license_no, String legal_representative_id, String legal_representative_name, String legal_representative_phone_no, String legal_representative_add, String authorizer_name, String authorizer_id, String authorizer_phone_no, String authorizer_add, int state) {
+        this.register_no = register_no;
+        this.business_license_no = business_license_no;
+        this.legal_representative_id = legal_representative_id;
+        this.legal_representative_name = legal_representative_name;
+        this.legal_representative_phone_no = legal_representative_phone_no;
+        this.legal_representative_add = legal_representative_add;
+        this.authorizer_name = authorizer_name;
+        this.authorizer_id = authorizer_id;
+        this.authorizer_phone_no = authorizer_phone_no;
+        this.authorizer_add = authorizer_add;
+        this.state = state;
+    }
+
     public int getSecurities_id() {
         return securities_id;
     }

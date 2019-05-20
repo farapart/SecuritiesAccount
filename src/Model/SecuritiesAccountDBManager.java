@@ -103,6 +103,58 @@ public class SecuritiesAccountDBManager {
     }
 
     /**
+     * 获取个人账户信息
+     * @param id_no 用户id
+     * @param account 返回的个人账户
+     * @return 操作是否成功，即是否存在该账户
+     */
+    public boolean getPersonalAccountID(String id_no, PersonalAccount account) {
+        String sql = "SELECT * FROM personal_account WHERE securities_id=?";
+        boolean result = false;
+        Connection conn = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConn();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setObject(1, id_no);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                account.setSecurities_id(rs.getInt(1));
+                account.setRegister_date(rs.getDate(2));
+                account.setName(rs.getString(3));
+                account.setGender(rs.getBoolean(4));
+                account.setId_no(rs.getString(5));
+                account.setFamily_add(rs.getString(6));
+                account.setCareer(rs.getString(7));
+                account.setEducation(rs.getString(8));
+                account.setOrganization(rs.getString(9));
+                account.setPhone_no(rs.getString(10));
+                account.setAgent_id_no(rs.getString(11));
+                account.setState(rs.getInt(12));
+                result = true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pStmt != null)
+                    pStmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+
+
+    /**
      * 获取法人账户信息
      * @param register_no 注册号码
      * @param account 返回的法人账户
@@ -150,6 +202,57 @@ public class SecuritiesAccountDBManager {
         }
         return result;
     }
+
+    /**
+     * 获取法人账户信息
+     * @param register_no 注册号码
+     * @param account 返回的法人账户
+     * @return 操作是否成功，即是否存在该账户
+     */
+    public boolean getCorporateAccountID(String register_no, CorporateAccount account) {
+        String sql = "SELECT * FROM corporate_account WHERE securities_id=?";
+        boolean result = false;
+        Connection conn = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConn();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setObject(1, register_no);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                account.setSecurities_id(rs.getInt(1));
+                account.setRegister_no(rs.getString(2));
+                account.setBusiness_license_no(rs.getString(3));
+                account.setLegal_representative_id(rs.getString(4));
+                account.setLegal_representative_name(rs.getString(5));
+                account.setLegal_representative_phone_no(rs.getString(6));
+                account.setLegal_representative_add(rs.getString(7));
+                account.setAuthorizer_name(rs.getString(8));
+                account.setAuthorizer_id(rs.getString(9));
+                account.setAuthorizer_phone_no(rs.getString(10));
+                account.setAuthorizer_add(rs.getString(11));
+                account.setState(rs.getInt(12));
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pStmt != null)
+                    pStmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+
 
     /**
      * 获取关联的资金账户ID
