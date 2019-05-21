@@ -53,7 +53,39 @@ public class SecuritiesAccountDBManager {
     }
 
     /**
-     * 获取个人账户信息
+     * 把被删除的个人账户放入personal_deleted表中
+     * @param account 被删除的账户信息
+     * @return 操作是否成功
+     */
+    public boolean newPersonalDeleted(PersonalAccount account) {
+        String sql = "INSERT INTO personal_deleted(securities_id, register_date, name, gender, id_no, " +
+                "family_add, career, education, organization, phone_no, agent_id_no) VALUES(?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?)";
+        Object []args = {account.getSecurities_id(), account.getRegister_date(), account.getName(), account.getGender(),
+        account.getId_no(), account.getFamily_add(), account.getCareer(), account.getEducation(), account.getOrganization(),
+        account.getPhone_no(), account.getAgent_id_no()};
+        return executeUpdate(sql, args);
+    }
+
+    /**
+     * 把被删除的法人账户放入corporate_deleted表中
+     * @param account 被删除的账户信息
+     * @return 操作是否成功
+     */
+    public boolean newCorporateDeleted(CorporateAccount account) {
+        String sql = "INSERT INTO corporate_account(securities_id, register_no, business_license_no, " +
+                "legal_representative_id, legal_representative_name, legal_representative_phone_no, " +
+                "legal_representative_add, authorizer_name, authorizer_id, authorizer_phone_no, authorizer_add) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Object []args = {account.getSecurities_id(), account.getRegister_no(), account.getBusiness_license_no(),
+                account.getLegal_representative_id(), account.getLegal_representative_name(), account.getBusiness_license_no(),
+                account.getLegal_representative_add(), account.getAuthorizer_name(), account.getAuthorizer_id(),
+                account.getAuthorizer_phone_no(), account.getAuthorizer_add()};
+        return executeUpdate(sql, args);
+    }
+
+    /**
+     * 用身份证号来获取个人账户信息
      * @param id_no 身份证号
      * @param account 返回的个人账户
      * @return 操作是否成功，即是否存在该账户
@@ -103,12 +135,12 @@ public class SecuritiesAccountDBManager {
     }
 
     /**
-     * 获取个人账户信息
-     * @param id_no 用户id
+     * 用账户ID来获取个人账户信息
+     * @param securities_id 账户ID
      * @param account 返回的个人账户
      * @return 操作是否成功，即是否存在该账户
      */
-    public boolean getPersonalAccountID(String id_no, PersonalAccount account) {
+    public boolean getPersonalAccountID(String securities_id, PersonalAccount account) {
         String sql = "SELECT * FROM personal_account WHERE securities_id=?";
         boolean result = false;
         Connection conn = null;
@@ -117,7 +149,7 @@ public class SecuritiesAccountDBManager {
         try {
             conn = getConn();
             pStmt = conn.prepareStatement(sql);
-            pStmt.setObject(1, id_no);
+            pStmt.setObject(1, securities_id);
             rs = pStmt.executeQuery();
             if (rs.next()) {
                 account.setSecurities_id(rs.getInt(1));
@@ -152,10 +184,8 @@ public class SecuritiesAccountDBManager {
         return result;
     }
 
-
-
     /**
-     * 获取法人账户信息
+     * 用注册号码来获取法人账户信息
      * @param register_no 注册号码
      * @param account 返回的法人账户
      * @return 操作是否成功，即是否存在该账户
@@ -204,12 +234,12 @@ public class SecuritiesAccountDBManager {
     }
 
     /**
-     * 获取法人账户信息
-     * @param register_no 注册号码
+     * 用账户ID来获取法人账户信息
+     * @param securities_id 账户ID
      * @param account 返回的法人账户
      * @return 操作是否成功，即是否存在该账户
      */
-    public boolean getCorporateAccountID(String register_no, CorporateAccount account) {
+    public boolean getCorporateAccountID(String securities_id, CorporateAccount account) {
         String sql = "SELECT * FROM corporate_account WHERE securities_id=?";
         boolean result = false;
         Connection conn = null;
@@ -218,7 +248,7 @@ public class SecuritiesAccountDBManager {
         try {
             conn = getConn();
             pStmt = conn.prepareStatement(sql);
-            pStmt.setObject(1, register_no);
+            pStmt.setObject(1, securities_id);
             rs = pStmt.executeQuery();
             if (rs.next()) {
                 account.setSecurities_id(rs.getInt(1));
@@ -251,8 +281,6 @@ public class SecuritiesAccountDBManager {
         }
         return result;
     }
-
-
 
     /**
      * 获取关联的资金账户ID
@@ -294,36 +322,36 @@ public class SecuritiesAccountDBManager {
         }
         return list;
     }
-
-    /**
-     * 修改个人账户中除了securities_id、register_date和state之外的信息
-     * @param account
-     * @return 操作是否成功
-     */
-    public boolean modifyPersonalAccount(PersonalAccount account) {
-        String sql = "UPDATE personal_account SET name=?, gender=?, id_no=?, family_add=?, career=?, education=?, " +
-                "organization=?, phone_no=?, agent_id_no=? WHERE securities_id=?";
-        Object []args = {account.getName(), account.getGender(), account.getId_no(), account.getFamily_add(),
-                account.getCareer(), account.getEducation(), account.getOrganization(), account.getPhone_no(),
-                account.getAgent_id_no(), account.getSecurities_id()};
-        return executeUpdate(sql, args);
-    }
-
-    /**
-     * 修改法人账户中除了securities_id和state之外的信息
-     * @param account
-     * @return 操作是否成功
-     */
-    public boolean modifyCorporateAccount(CorporateAccount account) {
-        String sql = "UPDATE corporate_account SET register_no=?, business_license_no=?, legal_representative_id=?, " +
-                "legal_representative_name=?, legal_representative_phone_no=?, legal_representative_add=?, " +
-                "authorizer_name=?, authorizer_id=?, authorizer_phone_no=?, authorizer_add=? WHERE securities_id=?";
-        Object []args = {account.getRegister_no(), account.getBusiness_license_no(), account.getLegal_representative_id(),
-                account.getLegal_representative_name(), account.getLegal_representative_phone_no(),
-                account.getLegal_representative_add(), account.getAuthorizer_name(), account.getAuthorizer_id(),
-                account.getAuthorizer_phone_no(), account.getAuthorizer_add(), account.getSecurities_id()};
-        return executeUpdate(sql, args);
-    }
+// 注释原因：需要修改的内容只有state，可以使用modifyPersonalState()和modifyCorporateState()进行修改，不需要下面两个函数。
+//    /**
+//     * 修改个人账户中除了securities_id、register_date和state之外的信息
+//     * @param account
+//     * @return 操作是否成功
+//     */
+//    public boolean modifyPersonalAccount(PersonalAccount account) {
+//        String sql = "UPDATE personal_account SET name=?, gender=?, id_no=?, family_add=?, career=?, education=?, " +
+//                "organization=?, phone_no=?, agent_id_no=? WHERE securities_id=?";
+//        Object []args = {account.getName(), account.getGender(), account.getId_no(), account.getFamily_add(),
+//                account.getCareer(), account.getEducation(), account.getOrganization(), account.getPhone_no(),
+//                account.getAgent_id_no(), account.getSecurities_id()};
+//        return executeUpdate(sql, args);
+//    }
+//
+//    /**
+//     * 修改法人账户中除了securities_id和state之外的信息
+//     * @param account
+//     * @return 操作是否成功
+//     */
+//    public boolean modifyCorporateAccount(CorporateAccount account) {
+//        String sql = "UPDATE corporate_account SET register_no=?, business_license_no=?, legal_representative_id=?, " +
+//                "legal_representative_name=?, legal_representative_phone_no=?, legal_representative_add=?, " +
+//                "authorizer_name=?, authorizer_id=?, authorizer_phone_no=?, authorizer_add=? WHERE securities_id=?";
+//        Object []args = {account.getRegister_no(), account.getBusiness_license_no(), account.getLegal_representative_id(),
+//                account.getLegal_representative_name(), account.getLegal_representative_phone_no(),
+//                account.getLegal_representative_add(), account.getAuthorizer_name(), account.getAuthorizer_id(),
+//                account.getAuthorizer_phone_no(), account.getAuthorizer_add(), account.getSecurities_id()};
+//        return executeUpdate(sql, args);
+//    }
 
     /**
      * 修改个人账户状态
@@ -358,6 +386,28 @@ public class SecuritiesAccountDBManager {
     public boolean modifySecuritiesFunds(int oldID, int newID) {
         String sql = "UPDATE securities_fund SET securities_id=? WHERE securities_id=?";
         Object []args = {newID, oldID};
+        return executeUpdate(sql, args);
+    }
+
+    /**
+     * 删除个人账户
+     * @param id_no 身份证号
+     * @return 操作是否成功
+     */
+    public boolean deletePersonalAccount(String id_no) {
+        String sql = "DELETE FROM personal_account WHERE id_no=?";
+        Object []args = {id_no};
+        return executeUpdate(sql, args);
+    }
+
+    /**
+     * 删除法人账户
+     * @param register_no 注册号码
+     * @return 操作是否成功
+     */
+    public boolean deleteCorporateAccount(String register_no) {
+        String sql = "DELETE FROM corporate_account WHERE register_no=?";
+        Object []args = {register_no};
         return executeUpdate(sql, args);
     }
 
