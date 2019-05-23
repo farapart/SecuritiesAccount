@@ -11,7 +11,6 @@
 
 <AnchorPane prefHeight="495.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AdminaccountPane">
    <children>
-      <HBox layoutY="18.0" />
       <StackPane fx:id="pagers" prefHeight="455.0" prefWidth="719.0" style="-fx-background-radius: 10px; -fx-background-color: white;" visible="false" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="60.0">
          <children>
             <HBox prefHeight="463.0" prefWidth="719.0">

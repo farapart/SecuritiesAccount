@@ -7,7 +7,7 @@ public class SecuritiesAccountDBManager {
     private String driverName = "com.mysql.cj.jdbc.Driver";
     private String dbURL = "jdbc:mysql://localhost:3306/project?serverTimezone=UTC";
     private String userName = "root";
-    private String userPwd = "";
+    private String userPwd = "hzx8865198";
 
     /**
      * 注册个人账户
@@ -73,7 +73,7 @@ public class SecuritiesAccountDBManager {
      * @return 操作是否成功
      */
     public boolean newCorporateDeleted(CorporateAccount account) {
-        String sql = "INSERT INTO corporate_account(securities_id, register_no, business_license_no, " +
+        String sql = "INSERT INTO corporate_deleted(securities_id, register_no, business_license_no, " +
                 "legal_representative_id, legal_representative_name, legal_representative_phone_no, " +
                 "legal_representative_add, authorizer_name, authorizer_id, authorizer_phone_no, authorizer_add) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

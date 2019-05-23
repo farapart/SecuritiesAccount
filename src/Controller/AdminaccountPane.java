@@ -148,18 +148,6 @@ public class AdminaccountPane implements Initializable {
             message.setVisible(true);
             return check;
         }
-        PersonalAccount temp = new PersonalAccount();
-        if(db.getPersonalAccount(psid.getText(), temp)){
-            if(temp.getState() == 1){
-                message.setText("您的账户已被冻结，需要补办");
-                message.setVisible(true);
-                return check;
-            }else if(temp.getState() == 0){
-                message.setText("您已经注册过证券账户！");
-                message.setVisible(true);
-                return check;
-            }
-        }
         if(!checktextField(prof)){
             message.setVisible(true);
             message.setText("请输入你的职业");
@@ -199,6 +187,13 @@ public class AdminaccountPane implements Initializable {
         if(!this.personalcheck()){
         return;
         }//todo还需验证账户是否存在以及删除等情况
+
+        PersonalAccount temp = new PersonalAccount();
+        if(db.getPersonalAccount(psid.getText(), temp)){
+            message.setText("您已经注册过证券账户！");
+            message.setVisible(true);
+            return;
+        }
 
         boolean sex;
         if(man.isSelected()){
@@ -270,18 +265,6 @@ public class AdminaccountPane implements Initializable {
             message1.setText("请输入法人注册登记号");
             message1.setVisible(true);
             return  false;
-        }
-        CorporateAccount temp = new CorporateAccount();
-        if(db.getCorporateAccount(cpid.getText(), temp)){
-            if(temp.getState() == 1){
-                message.setText("您的账户已被冻结，需要补办");
-                message.setVisible(true);
-                return false;
-            }else if(temp.getState() == 0){
-                message.setText("该法人注册账号已经注册过证券账户！");
-                message.setVisible(true);
-                return false;
-            }
         }
 
         if(!checktextField(cplicence)){
@@ -366,8 +349,14 @@ public class AdminaccountPane implements Initializable {
         if(!companycheck()){
             return;
         }
+        CorporateAccount temp = new CorporateAccount();
+        if(db.getCorporateAccount(cpid.getText(), temp)){
+            message.setText("该法人注册账号已经注册过证券账户！");
+            message.setVisible(true);
+            return ;
+        }
         //todo还需验证账户存在等问题
-        CorporateAccount temp = new CorporateAccount(cpid.getText(),cplicence.getText(), cprpid.getText(),cpname.getText(), cptel.getText(),  cpaddr.getText(), cptradername.getText(), cptraderid.getText(), cptradertel.getText(), cptraderaddr.getText());
+        temp = new CorporateAccount(cpid.getText(),cplicence.getText(), cprpid.getText(),cpname.getText(), cptel.getText(),  cpaddr.getText(), cptradername.getText(), cptraderid.getText(), cptradertel.getText(), cptraderaddr.getText());
         db.newCorporateAccount(temp);
         this.goToMessage("恭喜注册成功", String.valueOf(temp.getSecurities_id()));
     }
@@ -484,27 +473,39 @@ public class AdminaccountPane implements Initializable {
         if(!db.getCorporateAccount(ccidNb.getText(), corporate_temp)){
             flag = 1; // 法人账户不存在
         }else{
-            if(corporate_temp.getState() == 2){
-                message1.setText("该账号不存在");
+            if(corporate_temp.getState() == 1){
+                message1.setText("该账户目前已被冻结，请选择补办");
                 message1.setVisible(true);
                 return;
             }
-            db.modifyCorporateState(ccidNb.getText(), 2);
-            message1.setText("删除成功！");
-            message1.setVisible(true);
+            boolean delete_result = db.deleteCorporateAccount(ccidNb.getText());
+            if(delete_result == false){
+                message1.setText("删除失败！");
+                message1.setVisible(true);
+            }else{
+                db.newCorporateDeleted(corporate_temp);
+                message1.setText("删除成功！");
+                message1.setVisible(true);
+            }
             return ;
         }
         if(!db.getPersonalAccount(ccidNb.getText(), personal_temp)){
             flag = 2; // 个人账户不存在
         }else{
-            if(personal_temp.getState() == 2){
-                message1.setText("该账号不存在");
+            if(personal_temp.getState() == 1){
+                message1.setText("该账户目前已被冻结，请选择补办");
                 message1.setVisible(true);
                 return;
             }
-            db.modifyPersonalState(ccidNb.getText(), 2);
-            message1.setText("删除成功！");
-            message1.setVisible(true);
+            boolean delete_result = db.deletePersonalAccount(ccidNb.getText());
+            if(delete_result == false){
+                message1.setText("删除失败！");
+                message1.setVisible(true);
+            }else{
+                db.newPersonalDeleted(personal_temp);
+                message1.setText("删除成功！");
+                message1.setVisible(true);
+            }
             return ;
         }
 
@@ -551,38 +552,24 @@ public class AdminaccountPane implements Initializable {
         if(!db.getCorporateAccount(fridNb.getText(), corporate_temp)){
             flag = 1; // 法人账户不存在
         }else{
-            if(corporate_temp.getState() == 2){
-                message1.setText("该账号不存在");
-                message1.setVisible(true);
-                return;
-            }
             db.modifyCorporateState(fridNb.getText(), 1);
-            message1.setText("冻结成功！");
-            message1.setVisible(true);
+            this.goToMessage("冻结成功",String.valueOf(corporate_temp.getSecurities_id()));
             return ;
         }
         if(!db.getPersonalAccount(fridNb.getText(), personal_temp)){
             flag = 2; // 个人账户不存在
         }else{
-            if(personal_temp.getState() == 2){
-                message1.setText("该账号不存在");
-                message1.setVisible(true);
-                return;
-            }
             db.modifyPersonalState(fridNb.getText(), 1);
-            message1.setText("冻结成功！");
-            message1.setVisible(true);
+            this.goToMessage("冻结成功",String.valueOf(personal_temp.getSecurities_id()));
             return ;
         }
 
 
         if(flag == 1 || flag == 2){
-            message1.setText("该账号不存在");
-            message1.setVisible(true);
+            this.goToMessage("该账户不存在",fridNb.getText());
             return;
         }
         //todo
-        //this.goToMessage("冻结成功",account.getSecurities_id());
 
 
     }
@@ -660,6 +647,30 @@ public class AdminaccountPane implements Initializable {
         if(!companycheck()){
             return;
         }
+        CorporateAccount account = new CorporateAccount();
+        account = new CorporateAccount(cpid.getText(),cplicence.getText(), cprpid.getText(),cpname.getText(), cptel.getText(),  cpaddr.getText(), cptradername.getText(), cptraderid.getText(), cptradertel.getText(), cptraderaddr.getText());
+        this.goToMessage("恭喜补办成功", String.valueOf(account.getSecurities_id()));
+
+        CorporateAccount old_account = new CorporateAccount();
+        if(!db.getCorporateAccount(account.getRegister_no(), old_account)){
+            message1.setText("您还没有注册过证券账户！");
+            message1.setVisible(true);
+            return;
+        }else{
+            if(old_account.getState() == 0){
+                message1.setText("您的账户目前是正常状态，无须补办！");
+                message1.setVisible(true);
+                return;
+            }else {
+                db.deleteCorporateAccount(old_account.getRegister_no());
+                db.newCorporateDeleted(old_account);
+                db.newCorporateAccount(account);
+                CorporateAccount temp = new CorporateAccount();
+                db.getCorporateAccount(account.getRegister_no(), temp);
+                db.modifySecuritiesFunds(old_account.getSecurities_id(), account.getSecurities_id());
+                this.goToMessage("恭喜补办成功",String.valueOf(account.getSecurities_id()));
+            }
+        }
         //todo
     }
 
@@ -668,35 +679,43 @@ public class AdminaccountPane implements Initializable {
         if(!personalcheck()){
             return;
         }
+
         boolean sex;
         if(man.isSelected()){
             sex=true;
         }else{
             sex=false;
         }
-//        if(checktextField(rppsid)){
-////            PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText(), rppsid.getText());
-////            PersonalAccount old_account1 = new PersonalAccount();
-////            if(!db.getPersonalAccountID(String.valueOf(account1.getSecurities_id()), old_account1)){
-////                message1.setText("您还没有注册过证券账户！");
-////                message1.setVisible(true);
-////                return;
-////            }else{
-////                if(old_account1.getState() == 0){
-////                    message1.setText("您的账户目前是正常状态，无须补办！");
-////                    message1.setVisible(true);
-////                    return;
-////                }else if(old_account1.getState() == 1){
-////
-////                }
-////            }
-////            db.newPersonalAccount(account1, 0);
-////            this.goToMessage("恭喜注册成功",String.valueOf(account1.getSecurities_id()));
-////        }else{
-////            PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText());
-////            db.newPersonalAccount(account1, 1);
-////            this.goToMessage("恭喜注册成功", String.valueOf(account1.getSecurities_id()));
-////        }
+
+        int flag = 0;
+        PersonalAccount account = new PersonalAccount();
+        if(checktextField(rppsid)){
+            account= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText(), rppsid.getText());
+            flag = 0;
+        }else{
+            account= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText());
+            flag = 1;
+        }
+        PersonalAccount old_account = new PersonalAccount();
+        if(!db.getPersonalAccount(account.getId_no(), old_account)){
+            message1.setText("您还没有注册过证券账户！");
+            message1.setVisible(true);
+            return;
+        }else{
+            if(old_account.getState() == 0){
+                message1.setText("您的账户目前是正常状态，无须补办！");
+                message1.setVisible(true);
+                return;
+            }else {
+                db.deletePersonalAccount(old_account.getId_no());
+                db.newPersonalDeleted(old_account);
+                db.newPersonalAccount(account, flag);
+                PersonalAccount temp = new PersonalAccount();
+                db.getPersonalAccount(account.getId_no(), temp);
+                db.modifySecuritiesFunds(old_account.getSecurities_id(), account.getSecurities_id());
+                this.goToMessage("恭喜补办成功",String.valueOf(account.getSecurities_id()));
+            }
+        }
 
             //todo
     }
