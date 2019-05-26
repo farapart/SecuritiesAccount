@@ -20,7 +20,7 @@ import java.time.LocalDate;
 
 
 
-public class AdminaccountPane implements Initializable {
+public class AdminaccountPane extends AdminUIController {
 
     
     SecuritiesAccountDBManager db = new SecuritiesAccountDBManager();
@@ -474,18 +474,17 @@ public class AdminaccountPane implements Initializable {
             flag = 1; // 法人账户不存在
         }else{
             if(corporate_temp.getState() == 1){
-                message1.setText("该账户目前已被冻结，请选择补办");
-                message1.setVisible(true);
+                ccms.setText("该账户目前已被冻结，请选择补办");
+                ccms.setVisible(true);
                 return;
             }
             boolean delete_result = db.deleteCorporateAccount(ccidNb.getText());
             if(delete_result == false){
-                message1.setText("删除失败！");
-                message1.setVisible(true);
+                ccms.setText("删除失败！");
+                ccms.setVisible(true);
             }else{
                 db.newCorporateDeleted(corporate_temp);
-                message1.setText("删除成功！");
-                message1.setVisible(true);
+                this.goToMessage("恭喜删除成功", String.valueOf(corporate_temp.getSecurities_id()));
             }
             return ;
         }
@@ -493,26 +492,25 @@ public class AdminaccountPane implements Initializable {
             flag = 2; // 个人账户不存在
         }else{
             if(personal_temp.getState() == 1){
-                message1.setText("该账户目前已被冻结，请选择补办");
-                message1.setVisible(true);
+                ccms.setText("该账户目前已被冻结，请选择补办");
+                ccms.setVisible(true);
                 return;
             }
             boolean delete_result = db.deletePersonalAccount(ccidNb.getText());
             if(delete_result == false){
-                message1.setText("删除失败！");
-                message1.setVisible(true);
+                ccms.setText("删除失败！");
+                ccms.setVisible(true);
             }else{
                 db.newPersonalDeleted(personal_temp);
-                message1.setText("删除成功！");
-                message1.setVisible(true);
+                this.goToMessage("恭喜删除成功", String.valueOf(personal_temp.getSecurities_id()));
             }
             return ;
         }
 
 
         if(flag == 1 || flag == 2){
-            message1.setText("该账号不存在");
-            message1.setVisible(true);
+            ccms.setText("该账号不存在");
+            ccms.setVisible(true);
             return;
         }
         //todo还需验证账户存在等问题
