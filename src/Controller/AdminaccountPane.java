@@ -205,10 +205,12 @@ public class AdminaccountPane extends AdminUIController {
         if(checktextField(rppsid)){
             PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText(), rppsid.getText());
             db.newPersonalAccount(account1, 0);
+            db.getPersonalAccount(psid.getText(), account1);
             this.goToMessage("恭喜注册成功",String.valueOf(account1.getSecurities_id()));
         }else{
             PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText());
             db.newPersonalAccount(account1, 1);
+            db.getPersonalAccount(psid.getText(), account1);
             this.goToMessage("恭喜注册成功", String.valueOf(account1.getSecurities_id()));
         }
     }
@@ -358,6 +360,7 @@ public class AdminaccountPane extends AdminUIController {
         //todo还需验证账户存在等问题
         temp = new CorporateAccount(cpid.getText(),cplicence.getText(), cprpid.getText(),cpname.getText(), cptel.getText(),  cpaddr.getText(), cptradername.getText(), cptraderid.getText(), cptradertel.getText(), cptraderaddr.getText());
         db.newCorporateAccount(temp);
+        db.getCorporateAccount(cpid.getText(), temp);
         this.goToMessage("恭喜注册成功", String.valueOf(temp.getSecurities_id()));
     }
 
@@ -647,8 +650,6 @@ public class AdminaccountPane extends AdminUIController {
         }
         CorporateAccount account = new CorporateAccount();
         account = new CorporateAccount(cpid.getText(),cplicence.getText(), cprpid.getText(),cpname.getText(), cptel.getText(),  cpaddr.getText(), cptradername.getText(), cptraderid.getText(), cptradertel.getText(), cptraderaddr.getText());
-        this.goToMessage("恭喜补办成功", String.valueOf(account.getSecurities_id()));
-
         CorporateAccount old_account = new CorporateAccount();
         if(!db.getCorporateAccount(account.getRegister_no(), old_account)){
             message1.setText("您还没有注册过证券账户！");
@@ -665,8 +666,8 @@ public class AdminaccountPane extends AdminUIController {
                 db.newCorporateAccount(account);
                 CorporateAccount temp = new CorporateAccount();
                 db.getCorporateAccount(account.getRegister_no(), temp);
-                db.modifySecuritiesFunds(old_account.getSecurities_id(), account.getSecurities_id());
-                this.goToMessage("恭喜补办成功",String.valueOf(account.getSecurities_id()));
+                db.modifySecuritiesFunds(old_account.getSecurities_id(), temp.getSecurities_id());
+                this.goToMessage("恭喜补办成功",String.valueOf(temp.getSecurities_id()));
             }
         }
         //todo
@@ -710,8 +711,8 @@ public class AdminaccountPane extends AdminUIController {
                 db.newPersonalAccount(account, flag);
                 PersonalAccount temp = new PersonalAccount();
                 db.getPersonalAccount(account.getId_no(), temp);
-                db.modifySecuritiesFunds(old_account.getSecurities_id(), account.getSecurities_id());
-                this.goToMessage("恭喜补办成功",String.valueOf(account.getSecurities_id()));
+                db.modifySecuritiesFunds(old_account.getSecurities_id(), temp.getSecurities_id());
+                this.goToMessage("恭喜补办成功",String.valueOf(temp.getSecurities_id()));
             }
         }
 

@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5975f5ed-15c2-41a9-b6c8-e9d0399ae9a1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Test/Controller/AdminaccountPane.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Test/Controller/AdminaccountPane.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Test/Model/SecuritiesAccountDBManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Test/Model/SecuritiesAccountDBManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Test/View/Adminaccount.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Test/View/Adminaccount.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/AdminaccountPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AdminaccountPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/SecuritiesAccountDBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/SecuritiesAccountDBManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Adminaccount.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Adminaccount.fxml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,14 +35,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/SecuritiesAccountDBManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7051">
+            <state relative-caret-position="-5175">
               <caret line="75" column="51" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#11755#13003#0" />
-                <element signature="e#14888#15209#0" />
-                <element signature="e#15215#15562#0" />
-                <element signature="e#15568#15924#0" />
               </folding>
             </state>
           </provider>
@@ -57,7 +48,7 @@
         <entry file="file://$PROJECT_DIR$/src/View/Adminaccount.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
+            <state relative-caret-position="1577">
               <caret line="83" column="91" selection-start-line="83" selection-start-column="91" selection-end-line="83" selection-end-column="91" />
             </state>
           </provider>
@@ -66,7 +57,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
+            <state relative-caret-position="-667">
               <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -78,14 +69,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Controller/AdminaccountPane.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-757">
-              <caret line="666" column="48" lean-forward="true" selection-start-line="666" selection-start-column="48" selection-end-line="666" selection-end-column="48" />
+            <state relative-caret-position="303">
+              <caret line="710" column="53" lean-forward="true" selection-start-line="710" selection-start-column="53" selection-end-line="710" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2003#2004#0" expanded="true" />
-                <element signature="e#2049#2050#0" expanded="true" />
-                <element signature="e#2101#2102#0" expanded="true" />
-                <element signature="e#2174#2175#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -130,7 +117,7 @@
     </treeState>
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-10" />
     <option name="width" value="980" />
     <option name="height" value="1090" />
@@ -140,7 +127,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -181,17 +167,18 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1558533256660" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1558950963135" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.3805147" />
   </component>
@@ -219,7 +206,7 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Model.Main" />
       <module name="Test" />
-      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Users\C_Stephen\Desktop\temp\SecuritiesAccount\lib\openjfx-11.0.2_windows-x64_bin-sdk\javafx-sdk-11.0.2\lib&quot; --add-modules=javafx.controls,javafx.fxml" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Users\C_Stephen\Desktop\SecuritiesAccount\lib\openjfx-11.0.2_windows-x64_bin-sdk\javafx-sdk-11.0.2\lib&quot; --add-modules=javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="Model.*" />
@@ -274,17 +261,17 @@
       <workItem from="1558419334313" duration="592000" />
       <workItem from="1558513429261" duration="3636000" />
       <workItem from="1558582861356" duration="4686000" />
+      <workItem from="1558946913914" duration="3484000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29513000" />
+    <option name="totallyTimeSpent" value="32997000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25268096" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23592493" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -293,7 +280,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297587" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24396783" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.24396783" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.24798928" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -409,16 +396,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/CorporateAccount.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -468,38 +445,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-667">
+          <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Adminaccount1.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1082" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/View/Adminaccount.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
+        <state relative-caret-position="1577">
           <caret line="83" column="91" selection-start-line="83" selection-start-column="91" selection-end-line="83" selection-end-column="91" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/SecuritiesAccountDBManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7051">
+        <state relative-caret-position="-5175">
           <caret line="75" column="51" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11755#13003#0" />
-            <element signature="e#14888#15209#0" />
-            <element signature="e#15215#15562#0" />
-            <element signature="e#15568#15924#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/AdminaccountPane.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-757">
-          <caret line="666" column="48" lean-forward="true" selection-start-line="666" selection-start-column="48" selection-end-line="666" selection-end-column="48" />
+        <state relative-caret-position="303">
+          <caret line="710" column="53" lean-forward="true" selection-start-line="710" selection-start-column="53" selection-end-line="710" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2003#2004#0" expanded="true" />
-            <element signature="e#2049#2050#0" expanded="true" />
-            <element signature="e#2101#2102#0" expanded="true" />
-            <element signature="e#2174#2175#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -525,7 +510,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.3805147" />
               </list>
             </option>
           </splitter-proportions>
@@ -572,7 +557,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.3805147" />
               </list>
             </option>
           </splitter-proportions>
