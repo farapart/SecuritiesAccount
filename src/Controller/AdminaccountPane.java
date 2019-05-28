@@ -353,8 +353,8 @@ public class AdminaccountPane extends AdminUIController {
         }
         CorporateAccount temp = new CorporateAccount();
         if(db.getCorporateAccount(cpid.getText(), temp)){
-            message.setText("该法人注册账号已经注册过证券账户！");
-            message.setVisible(true);
+            message1.setText("该法人注册账号已经注册过证券账户！");
+            message1.setVisible(true);
             return ;
         }
         //todo还需验证账户存在等问题
