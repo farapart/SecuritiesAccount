@@ -400,6 +400,37 @@ public class SecuritiesAccountDBManager {
         return executeUpdate(sql, args);
     }
 
+    public boolean getStock(String id_no) {
+        int securities_id = Integer.valueOf(id_no);
+        String sql = "SELECT * FROM securities_stock WHERE securities_id=?";
+        boolean result = false;
+        Connection conn = null;
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConn();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setObject(1, securities_id);
+            rs = pStmt.executeQuery();
+            result = rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pStmt != null)
+                    pStmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+
+    }
+
     /**
      * 删除法人账户
      * @param register_no 注册号码
