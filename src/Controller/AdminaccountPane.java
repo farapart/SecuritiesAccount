@@ -486,7 +486,6 @@ public class AdminaccountPane extends AdminUIController {
                 ccms.setText("删除失败！");
                 ccms.setVisible(true);
             }else{
-                db.newCorporateDeleted(corporate_temp);
                 this.goToMessage("恭喜删除成功", String.valueOf(corporate_temp.getSecurities_id()));
             }
             return ;
@@ -504,7 +503,6 @@ public class AdminaccountPane extends AdminUIController {
                 ccms.setText("删除失败！");
                 ccms.setVisible(true);
             }else{
-                db.newPersonalDeleted(personal_temp);
                 this.goToMessage("恭喜删除成功", String.valueOf(personal_temp.getSecurities_id()));
             }
             return ;
@@ -662,7 +660,6 @@ public class AdminaccountPane extends AdminUIController {
                 return;
             }else {
                 db.deleteCorporateAccount(old_account.getRegister_no());
-                db.newCorporateDeleted(old_account);
                 db.newCorporateAccount(account);
                 CorporateAccount temp = new CorporateAccount();
                 db.getCorporateAccount(account.getRegister_no(), temp);
@@ -707,7 +704,6 @@ public class AdminaccountPane extends AdminUIController {
                 return;
             }else {
                 db.deletePersonalAccount(old_account.getId_no());
-                db.newPersonalDeleted(old_account);
                 db.newPersonalAccount(account, flag);
                 PersonalAccount temp = new PersonalAccount();
                 db.getPersonalAccount(account.getId_no(), temp);
