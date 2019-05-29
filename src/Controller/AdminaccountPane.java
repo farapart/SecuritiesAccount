@@ -206,12 +206,12 @@ public class AdminaccountPane extends AdminUIController {
             PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText(), rppsid.getText());
             db.newPersonalAccount(account1, 0);
             db.getPersonalAccount(psid.getText(), account1);
-            this.goToMessage("恭喜注册成功",String.valueOf(account1.getSecurities_id()));
+            this.goToMessage("恭喜注册成功",String.valueOf(account1.getSecuritiesId()));
         }else{
             PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText());
             db.newPersonalAccount(account1, 1);
             db.getPersonalAccount(psid.getText(), account1);
-            this.goToMessage("恭喜注册成功", String.valueOf(account1.getSecurities_id()));
+            this.goToMessage("恭喜注册成功", String.valueOf(account1.getSecuritiesId()));
         }
     }
 
@@ -361,7 +361,7 @@ public class AdminaccountPane extends AdminUIController {
         temp = new CorporateAccount(cpid.getText(),cplicence.getText(), cprpid.getText(),cpname.getText(), cptel.getText(),  cpaddr.getText(), cptradername.getText(), cptraderid.getText(), cptradertel.getText(), cptraderaddr.getText());
         db.newCorporateAccount(temp);
         db.getCorporateAccount(cpid.getText(), temp);
-        this.goToMessage("恭喜注册成功", String.valueOf(temp.getSecurities_id()));
+        this.goToMessage("恭喜注册成功", String.valueOf(temp.getSecuritiesId()));
     }
 
     @FXML
@@ -486,7 +486,7 @@ public class AdminaccountPane extends AdminUIController {
                 ccms.setText("删除失败！");
                 ccms.setVisible(true);
             }else{
-                this.goToMessage("恭喜删除成功", String.valueOf(corporate_temp.getSecurities_id()));
+                this.goToMessage("恭喜删除成功", String.valueOf(corporate_temp.getSecuritiesId()));
             }
             return ;
         }
@@ -503,7 +503,7 @@ public class AdminaccountPane extends AdminUIController {
                 ccms.setText("删除失败！");
                 ccms.setVisible(true);
             }else{
-                this.goToMessage("恭喜删除成功", String.valueOf(personal_temp.getSecurities_id()));
+                this.goToMessage("恭喜删除成功", String.valueOf(personal_temp.getSecuritiesId()));
             }
             return ;
         }
@@ -552,14 +552,14 @@ public class AdminaccountPane extends AdminUIController {
             flag = 1; // 法人账户不存在
         }else{
             db.modifyCorporateState(fridNb.getText(), 1);
-            this.goToMessage("冻结成功",String.valueOf(corporate_temp.getSecurities_id()));
+            this.goToMessage("冻结成功",String.valueOf(corporate_temp.getSecuritiesId()));
             return ;
         }
         if(!db.getPersonalAccount(fridNb.getText(), personal_temp)){
             flag = 2; // 个人账户不存在
         }else{
             db.modifyPersonalState(fridNb.getText(), 1);
-            this.goToMessage("冻结成功",String.valueOf(personal_temp.getSecurities_id()));
+            this.goToMessage("冻结成功",String.valueOf(personal_temp.getSecuritiesId()));
             return ;
         }
 
@@ -649,7 +649,7 @@ public class AdminaccountPane extends AdminUIController {
         CorporateAccount account = new CorporateAccount();
         account = new CorporateAccount(cpid.getText(),cplicence.getText(), cprpid.getText(),cpname.getText(), cptel.getText(),  cpaddr.getText(), cptradername.getText(), cptraderid.getText(), cptradertel.getText(), cptraderaddr.getText());
         CorporateAccount old_account = new CorporateAccount();
-        if(!db.getCorporateAccount(account.getRegister_no(), old_account)){
+        if(!db.getCorporateAccount(account.getRegisterNo(), old_account)){
             message1.setText("您还没有注册过证券账户！");
             message1.setVisible(true);
             return;
@@ -659,12 +659,12 @@ public class AdminaccountPane extends AdminUIController {
                 message1.setVisible(true);
                 return;
             }else {
-                db.deleteCorporateAccount(old_account.getRegister_no());
+                db.deleteCorporateAccount(old_account.getRegisterNo());
                 db.newCorporateAccount(account);
                 CorporateAccount temp = new CorporateAccount();
-                db.getCorporateAccount(account.getRegister_no(), temp);
-                db.modifySecuritiesFunds(old_account.getSecurities_id(), temp.getSecurities_id());
-                this.goToMessage("恭喜补办成功",String.valueOf(temp.getSecurities_id()));
+                db.getCorporateAccount(account.getRegisterNo(), temp);
+                db.modifySecuritiesFunds(old_account.getSecuritiesId(), temp.getSecuritiesId());
+                this.goToMessage("恭喜补办成功",String.valueOf(temp.getSecuritiesId()));
             }
         }
         //todo
@@ -693,7 +693,7 @@ public class AdminaccountPane extends AdminUIController {
             flag = 1;
         }
         PersonalAccount old_account = new PersonalAccount();
-        if(!db.getPersonalAccount(account.getId_no(), old_account)){
+        if(!db.getPersonalAccount(account.getIdNo(), old_account)){
             message1.setText("您还没有注册过证券账户！");
             message1.setVisible(true);
             return;
@@ -703,12 +703,12 @@ public class AdminaccountPane extends AdminUIController {
                 message1.setVisible(true);
                 return;
             }else {
-                db.deletePersonalAccount(old_account.getId_no());
+                db.deletePersonalAccount(old_account.getIdNo());
                 db.newPersonalAccount(account, flag);
                 PersonalAccount temp = new PersonalAccount();
-                db.getPersonalAccount(account.getId_no(), temp);
-                db.modifySecuritiesFunds(old_account.getSecurities_id(), temp.getSecurities_id());
-                this.goToMessage("恭喜补办成功",String.valueOf(temp.getSecurities_id()));
+                db.getPersonalAccount(account.getIdNo(), temp);
+                db.modifySecuritiesFunds(old_account.getSecuritiesId(), temp.getSecuritiesId());
+                this.goToMessage("恭喜补办成功",String.valueOf(temp.getSecuritiesId()));
             }
         }
 

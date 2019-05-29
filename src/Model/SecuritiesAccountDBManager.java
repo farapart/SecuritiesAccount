@@ -4,8 +4,10 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 import com.google.gson.Gson;
-import Model.utils.*;
+
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import Model.utils.*;
 
 public class SecuritiesAccountDBManager {
     /**
@@ -15,7 +17,8 @@ public class SecuritiesAccountDBManager {
      * @return 操作是否成功
      */
     public boolean newPersonalAccount(PersonalAccount account, int flag) {
-        String json = new Gson().toJson(account);
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+        String json = gson.toJson(account);
         CustomResp cr = new HttpCommon().doHttp("/securities/new/personal", "POST", json);
         Result res = new Gson().fromJson(cr.getResultJSON(), Result.class);
         return res.isStatus();
@@ -40,10 +43,11 @@ public class SecuritiesAccountDBManager {
      * @return 操作是否成功，即是否存在该账户
      */
     public boolean getPersonalAccount(String id_no, PersonalAccount account) {
-        String json = new Gson().toJson(id_no);
-        CustomResp cr = new HttpCommon().doHttp("/securities/personal", "GET", json);
-        account = new Gson().fromJson(cr.getObjectJSON(), PersonalAccount.class);
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+        CustomResp cr = new HttpCommon().doHttp("/securities/personal/" + id_no, "GET", null);
         Result res = new Gson().fromJson(cr.getResultJSON(), Result.class);
+        if (res.isStatus())
+            account.copy(gson.fromJson(cr.getObjectJSON(), PersonalAccount.class));
         return res.isStatus();
     }
 
@@ -54,10 +58,11 @@ public class SecuritiesAccountDBManager {
      * @return 操作是否成功，即是否存在该账户
      */
     public boolean getCorporateAccount(String register_no, CorporateAccount account) {
-        String json = new Gson().toJson(register_no);
-        CustomResp cr = new HttpCommon().doHttp("/securities/corporate", "GET", json);
+        CustomResp cr = new HttpCommon().doHttp("/securities/corporate/" + register_no, "GET", null);
         account = new Gson().fromJson(cr.getObjectJSON(), CorporateAccount.class);
         Result res = new Gson().fromJson(cr.getResultJSON(), Result.class);
+        if (res.isStatus())
+            account.copy(new Gson().fromJson(cr.getObjectJSON(), CorporateAccount.class));
         return res.isStatus();
     }
 
@@ -114,7 +119,7 @@ public class SecuritiesAccountDBManager {
      * @return 操作是否成功
      */
     public boolean deletePersonalAccount(String id_no) {
-        CustomResp cr = new HttpCommon().doHttp("/securities/delete/person/" + id_no, "POST", null);
+        CustomResp cr = new HttpCommon().doHttp("/securities/delete/personal/" + id_no, "POST", null);
         Result res = new Gson().fromJson(cr.getResultJSON(), Result.class);
         return res.isStatus();
     }
