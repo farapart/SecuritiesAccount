@@ -78,6 +78,19 @@ public class SecuritiesAccountDBManager {
     }
 
     /**
+     * 检查是否有剩余的证券
+     * @param securities_id 证券账户ID
+     * @return 返回该证券账户是否有剩余的证券
+     */
+    public boolean getSecuritiesStock(int securities_id) {
+        CustomResp cr = new HttpCommon().doHttp("/securities/stock_connected/" + securities_id, "GET", null);
+        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+        List<String> connectedStock = new ArrayList<String>();
+        connectedStock = new Gson().fromJson(cr.getObjectJSON(), listType);
+        return !connectedStock.isEmpty();
+    }
+
+    /**
      * 修改个人账户状态
      * @param id_no 身份证号
      * @param state
