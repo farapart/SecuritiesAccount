@@ -262,6 +262,19 @@ public class AdminaccountPane extends AdminUIController {
     @FXML
     private TextField cprpid;
 
+    public void companyClear(){
+        cpid.clear();
+        cptradername.clear();
+        cprpid.clear();
+        cplicence.clear();
+        cpaddr.clear();
+        cpname.clear();
+        cptraderaddr.clear();
+        cptraderid.clear();
+        cptradertel.clear();
+        cptel.clear();
+    }
+
     public boolean companycheck(){
         if(!checktextField(cpid)){
             message1.setText("请输入法人注册登记号");
@@ -301,8 +314,8 @@ public class AdminaccountPane extends AdminUIController {
 
 
         if(cpid.getText().length()!=9){
-            ccms.setText("请输入正确的法人注册登记号");
-            ccms.setVisible(true);
+            message1.setText("请输入正确的法人注册登记号");
+            message1.setVisible(true);
             return false;
         }
 
@@ -367,6 +380,7 @@ public class AdminaccountPane extends AdminUIController {
     @FXML
     void goback(ActionEvent event) {
         pagecprs.setVisible(false);
+        this.companyClear();
         pagechose.setVisible(true);
     }
 
@@ -473,6 +487,12 @@ public class AdminaccountPane extends AdminUIController {
         int flag = 0;
         PersonalAccount personal_temp = new PersonalAccount();
         CorporateAccount corporate_temp = new CorporateAccount();
+        if(db.getSecuritiesStock(Integer.valueOf( ccaccnb.getText()))){
+            ccms.setText("您有证劵未卖出，无法注销");
+            ccms.setVisible(true);
+            return ;
+        }
+
         if(!db.getCorporateAccount(ccidNb.getText(), corporate_temp)){
             flag = 1; // 法人账户不存在
         }else{
@@ -516,7 +536,7 @@ public class AdminaccountPane extends AdminUIController {
         }
         //todo还需验证账户存在等问题
 
-        //this.goToMessage("注销成功",account.getSecurities_id());
+        //this.goToMessage("注销成功",account.getSecuritiesId());
     }
    
    
@@ -565,7 +585,8 @@ public class AdminaccountPane extends AdminUIController {
 
 
         if(flag == 1 || flag == 2){
-            this.goToMessage("该账户不存在",fridNb.getText());
+            frms.setText("账户不存在");
+            frms.setVisible(true);
             return;
         }
         //todo
@@ -694,13 +715,13 @@ public class AdminaccountPane extends AdminUIController {
         }
         PersonalAccount old_account = new PersonalAccount();
         if(!db.getPersonalAccount(account.getIdNo(), old_account)){
-            message1.setText("您还没有注册过证券账户！");
-            message1.setVisible(true);
+            message.setText("您还没有注册过证券账户！");
+            message.setVisible(true);
             return;
         }else{
             if(old_account.getState() == 0){
-                message1.setText("您的账户目前是正常状态，无须补办！");
-                message1.setVisible(true);
+                message.setText("您的账户目前是正常状态，无须补办！");
+                message.setVisible(true);
                 return;
             }else {
                 db.deletePersonalAccount(old_account.getIdNo());

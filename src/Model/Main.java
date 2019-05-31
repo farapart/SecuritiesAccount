@@ -35,7 +35,7 @@ public class Main extends Application {
     }
     public void gotologin(){
       try {
-            AdminaccountPane login = (AdminaccountPane) replaceSceneContent("../View/Adminaccount.fxml");
+            AdminaccountPane login = (AdminaccountPane) replaceSceneContent("../View/Adminaccount1.fxml");
             login.setApp(this);
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
