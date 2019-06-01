@@ -122,7 +122,21 @@ public class AdminaccountPane extends AdminUIController {
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // 
+        pstel.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if (!newValue.matches("\\d*")) {
+                        pstel.setText(newValue.replaceAll("[^\\d]", ""));
+                    }
+                });
+       cptel.textProperty().addListener((observable, oldValue, newValue) -> {
+           if (!newValue.matches("\\d*")) {
+               cptel.setText(newValue.replaceAll("[^\\d]", ""));
+           }
+       });
+       cptradertel.textProperty().addListener((observable, oldValue, newValue) -> {
+           if (!newValue.matches("\\d*")) {
+               cptradertel.setText(newValue.replaceAll("[^\\d]", ""));
+           }
+       });
     }
 
     public void initTime(){
@@ -262,7 +276,8 @@ public class AdminaccountPane extends AdminUIController {
     @FXML
     private TextField cprpid;
 
-    public void companyClear(){
+    public void allClear(){
+
         cpid.clear();
         cptradername.clear();
         cprpid.clear();
@@ -273,6 +288,20 @@ public class AdminaccountPane extends AdminUIController {
         cptraderid.clear();
         cptradertel.clear();
         cptel.clear();
+        prof.clear();
+        diplome.clear();
+        psaddr.clear();
+        psid.clear();
+        psjob.clear();
+        psname.clear();
+        pstel.clear();
+        rppsid.clear();
+        man.setSelected(false);
+        women.setSelected(false);
+        ccidNb.clear();
+        ccaccnb.clear();
+        fridNb.clear();
+
     }
 
     public boolean companycheck(){
@@ -380,7 +409,6 @@ public class AdminaccountPane extends AdminUIController {
     @FXML
     void goback(ActionEvent event) {
         pagecprs.setVisible(false);
-        this.companyClear();
         pagechose.setVisible(true);
     }
 
@@ -426,24 +454,28 @@ public class AdminaccountPane extends AdminUIController {
     @FXML
     void jumprs(ActionEvent event) {
         pagechose.setVisible(false);
+        this.allClear();
         pagers.setVisible(true);
     }
 
     @FXML
     void jumptofr(ActionEvent event) {
         pagechose.setVisible(false);
+        this.allClear();
         pagefr.setVisible(true);
     }
 
     @FXML
     void jumptocc(ActionEvent event) {
         pagechose.setVisible(false);
+        this.allClear();
         pagecc.setVisible(true);
     }
 
     @FXML
     void jumptoressuie(ActionEvent event) {
         pagechose.setVisible(false);
+        this.allClear();
         pageressui.setVisible(true);
     }
 
