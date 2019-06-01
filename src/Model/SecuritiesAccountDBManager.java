@@ -9,14 +9,15 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import Model.utils.*;
 
+import javax.crypto.SecretKey;
+
 public class SecuritiesAccountDBManager {
     /**
      * 注册个人账户
      * @param account 个人账户注册信息
-     * @param flag 标志是否存在代理人，0表示存在，1表示不存在
      * @return 操作是否成功
      */
-    public boolean newPersonalAccount(PersonalAccount account, int flag) {
+    public boolean newPersonalAccount(PersonalAccount account) {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         String json = gson.toJson(account);
         CustomResp cr = new HttpCommon().doHttp("/securities/new/personal", "POST", json);
@@ -59,7 +60,6 @@ public class SecuritiesAccountDBManager {
      */
     public boolean getCorporateAccount(String register_no, CorporateAccount account) {
         CustomResp cr = new HttpCommon().doHttp("/securities/corporate/" + register_no, "GET", null);
-        account = new Gson().fromJson(cr.getObjectJSON(), CorporateAccount.class);
         Result res = new Gson().fromJson(cr.getResultJSON(), Result.class);
         if (res.isStatus())
             account.copy(new Gson().fromJson(cr.getObjectJSON(), CorporateAccount.class));
@@ -84,9 +84,8 @@ public class SecuritiesAccountDBManager {
      */
     public boolean getSecuritiesStock(int securities_id) {
         CustomResp cr = new HttpCommon().doHttp("/securities/stock_connected/" + securities_id, "GET", null);
-        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
-        List<String> connectedStock = new ArrayList<String>();
-        connectedStock = new Gson().fromJson(cr.getObjectJSON(), listType);
+        Type listType = new TypeToken<ArrayList<Stock>>() {}.getType();
+        List<Stock> connectedStock = new Gson().fromJson(cr.getObjectJSON(), listType);
         return !connectedStock.isEmpty();
     }
 

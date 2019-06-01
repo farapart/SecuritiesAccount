@@ -204,12 +204,12 @@ public class AdminaccountPane extends AdminUIController {
 
         if(checktextField(rppsid)){
             PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText(), rppsid.getText());
-            db.newPersonalAccount(account1, 0);
+            db.newPersonalAccount(account1);
             db.getPersonalAccount(psid.getText(), account1);
             this.goToMessage("恭喜注册成功",String.valueOf(account1.getSecuritiesId()));
         }else{
             PersonalAccount account1= new PersonalAccount(java.sql.Date.valueOf(date.getValue()), psname.getText(), sex, psid.getText(), psaddr.getText(), prof.getText(), diplome.getText(), psjob.getText(), pstel.getText());
-            db.newPersonalAccount(account1, 1);
+            db.newPersonalAccount(account1);
             db.getPersonalAccount(psid.getText(), account1);
             this.goToMessage("恭喜注册成功", String.valueOf(account1.getSecuritiesId()));
         }
@@ -725,7 +725,7 @@ public class AdminaccountPane extends AdminUIController {
                 return;
             }else {
                 db.deletePersonalAccount(old_account.getIdNo());
-                db.newPersonalAccount(account, flag);
+                db.newPersonalAccount(account);
                 PersonalAccount temp = new PersonalAccount();
                 db.getPersonalAccount(account.getIdNo(), temp);
                 db.modifySecuritiesFunds(old_account.getSecuritiesId(), temp.getSecuritiesId());
