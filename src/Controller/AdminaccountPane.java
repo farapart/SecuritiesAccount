@@ -1,6 +1,9 @@
 package Controller;
 
 import Model.*;
+import javafx.animation.FadeTransition;
+import javafx.animation.FillTransition;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -15,6 +18,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.util.Duration;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
@@ -24,10 +29,8 @@ public class AdminaccountPane extends AdminUIController {
 
     
     SecuritiesAccountDBManager db = new SecuritiesAccountDBManager();
-    @FXML
-    public void backtoMain1(ActionEvent event){
-        //todo跟大组连接用不用写 
-    }
+
+
 
     @FXML
     private MenuBar menuBar;
@@ -111,6 +114,8 @@ public class AdminaccountPane extends AdminUIController {
     private Main application;
 
     private ClassAccount account;
+
+
     
     
     public void setApp(Main application){
@@ -137,6 +142,11 @@ public class AdminaccountPane extends AdminUIController {
                cptradertel.setText(newValue.replaceAll("[^\\d]", ""));
            }
        });
+
+
+
+
+
     }
 
     public void initTime(){

@@ -67,7 +67,7 @@ public class Main extends Application {
             page = (AnchorPane) loader.load(in);
         } finally { in.close();
         } 
-        Scene scene = new Scene(page, 800, 600);
+        Scene scene = new Scene(page, 960, 600);
         stage.setScene(scene);
         stage.sizeToScene();
         return (Initializable) loader.getController();
